@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from models import Product
+#from Guest.models import Product
 
 
 
@@ -10,7 +10,7 @@ from models import Product
 def index(request):
     #Check the request if data is to be shown dynamic
     return render(request,'index.html')
-
+"""
 #return the product on the template of single product with slug 
 def singleProduct(request, slug1):
     product_to_show = Product.objects.get(slug = slug1)
@@ -23,7 +23,7 @@ def catalog(request, category1):
     p2 = Product.objects.filter(description__contains = category1 )
     product_to_show = product_to_show.union(p1.union(p2))
     return render(request,'catalog.html',{'Products':product_to_show})
-
+"""
 def technology(request):
     return render(request,'technology.html')
 

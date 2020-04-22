@@ -1,5 +1,9 @@
 from django.contrib import admin
-from Guest.models import Destination
+from Guest.models import Product , Reviews , Order
+
 
 # Register your models here.
-admin.site.register(Destination)
+
+admin.site.register(Product)
+admin.site.register(Reviews)
+admin.site.register(Order)
