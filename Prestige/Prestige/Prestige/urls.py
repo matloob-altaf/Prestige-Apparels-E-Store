@@ -20,7 +20,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('Guest.urls'))
+    path('', include(('Guest.urls', 'Guest'), namespace = 'Guest'))
+    #include(('home.urls', 'home'), namespace='home')
 
 ]
 
