@@ -3,16 +3,23 @@ from django.urls import path
 from . import views
 
 
+
+app_name = 'Guest'
 urlpatterns = [
     path('', views.index, name = "Index"),
-    #path('Product/<str : slug1>', views.singleProduct, name = "single_product"),
-    #path('Catalog/<str : category1>', views.catalog, name = "catalog"),
+    path('product/<str:slug1>', views.singleProduct, name = "product"),
+    path('product/', views.singleProduct, name = "product"),
+    path('catalog/<str:category1>', views.catalog, name = "catalog"),
+    path('catalog/', views.catalog, name = "catalog"),
+    path('addReview',views.addReview, name='addreview'),
     
     # for search apperance
-    #path('Catalog/<str : slug', views.singleProduct, name = "single_product"),
     
-    path('Cart/', views.Cart, name = "shopping"),
-    path('Technology/', views.technology, name = "technology"),
-    path('about/', views.about, name = "about")
+    
+    path('cart/', views.Cart, name = "shopping"),
+    path('technology/', views.technology, name = "technology"),
+    path('about/', views.about, name = "about"),
+    path('contact/', views.about, name = "contact"),
+    
 
 ]

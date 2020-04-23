@@ -1,5 +1,5 @@
 
-x = "about.html"
+x = "product.html"
 # Read in the file
 with open(x, 'r',errors='ignore') as file :
   filedata = file.read()
@@ -35,3 +35,6 @@ filedata = filedata.replace( '"js/' , '"{% static \'js/' )
 # Write the file out again
 with open(x, 'w') as file:
   file.write(filedata)
+
+#one line for loop
+#[thing for thing in list_of_things]
