@@ -35,7 +35,7 @@ class Product(models.Model):
     def category_list(self):
         lst = ",".split(self.category)
         return " ".join(lst)
-
+    
     
 class Inventory(models.Model):
     SIZE_CHOICES = [
@@ -105,15 +105,39 @@ class User(models.Model):
     #    return re", kwargs={"pk": self.pk})
 """
 
+class orderItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey("Guest.Product",  on_delete=models.CASCADE)
+    order_no = models.CharField(max_length=100, null=False, blank=False, default=34327)
+    quantity = models.PositiveIntegerField(default=1)
+    
+    def __str__(self):
+        return str(self.product.name) +" | "+ str(self.user) 
+    def get_total_item_price(self):
+        return self.product.price * self.quantity
+    def get_total_discounted_item_price(self):
+        return self.product.discount_price * self.quantity
+    def get_final_price(self):
+        if self.item.discount_price:
+            return self.get_total_discounted_item_price()
+        else:
+            return self.get_total_item_price
+
 class Order(models.Model):
     status_codes = [
         ('p','pending'),('d','delivered'), ('e','enroute')]
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey("Guest.Product",  on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=0)
-    price = models.PositiveIntegerField(default=0)
-    date_time = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    items = models.ManyToManyField(orderItem)
+    ordered_date_time = models.DateTimeField(auto_now_add=True)
     status = models.CharField(choices=status_codes, max_length=9,default=status_codes[0])
     def __str__(self):
-        return str(self.pk) + str(self.user) + self.status
+        return str(self.user.username) +" "+self.status
+
+    def get_total(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        return total
+    
+    
