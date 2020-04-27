@@ -45,15 +45,11 @@
 					</div>
 
 					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							Help & FAQs
-						</a>
 
 						<a href="#" class="flex-c-m trans-04 p-lr-25">
 							My Account
 						</a>
 
-						
 					</div>
 				</div>
 			</div>
@@ -70,28 +66,31 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li class="active-menu">
-								<a href="#">Home</a>
+								<a href="{% url 'Guest:Index' %}">Home</a>
 							</li>
 
 							<li>
-								<a href="#">Men</a>
+								<a href="{% url 'Guest:catalog' %}men">Men</a>
 							</li>
 
 
 							<li>
-								<a href="#">Women</a>
+								<a href="{% url 'Guest:catalog' %}women">Women</a>
 							</li>
 
 							<li class="label1" data-label1="sale">
-								<a href="#">New Arrivals</a>
+								<a href="{% url 'Guest:catalog'  %}new_arrivals">New Arrivals</a>
 							</li>
 
 							<li>
-								<a href="#">Technology</a>
+								<a href="{% url 'Guest:technology' %}">Technology</a>
 							</li>
 
 							<li>
-								<a href="#">About Us</a>
+								<a href="{% url 'Guest:about' %}">About Us</a>
+							</li>
+							<li>
+								<a href="{% url 'Guest:contact' %}">Contact Us</a>
 							</li>
 						</ul>
 					</div>	
@@ -118,7 +117,7 @@
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->		
 			<div class="logo-mobile">
-				<a href="index.html"><img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
+				<a href="{% url 'Guest:Index' %}"><img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
 			</div>
 
 			<!-- Icon header -->
@@ -156,9 +155,6 @@
 
 				<li>
 					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							Help & FAQs
-						</a>
 
 						<a href="#" class="flex-c-m p-lr-10 trans-04">
 							My Account
@@ -174,15 +170,15 @@
 				</li>
 
 				<li>
-					<a href="#">Men</a>
+					<a href="{% url 'Guest:catalog' %}men">Men</a>
 				</li>
 
 				<li>
-					<a href="#">Women</a>
+					<a href="{% url 'Guest:catalog' %}women">Women</a>
 				</li>
 
 				<li class="label1" data-label1="sale">
-					<a href="#">New Arrivals</a>
+					<a href="{% url 'Guest:catalog' %}new_arrivals">New Arrivals</a>
 				</li>
 
 				<li>
@@ -194,6 +190,7 @@
 				</li>
 			</ul>
 		</div>
+
 
 		<!-- Modal Search -->
 		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
@@ -324,9 +321,10 @@
 								<tr class="table_head">
 									<th class="column-1">Product</th>
 									<th class="column-2"></th>
-									<th class="column-3">Price</th>
-									<th class="column-4">Quantity</th>
-									<th class="column-5">Total</th>
+									<th class="column-3">Size & Color</th>
+									<th class="column-4">Price</th>
+									<th class="column-5">Quantity</th>
+									<th class="column-6">Total</th>
 								</tr>
 
 								<tr class="table_row">
@@ -336,8 +334,9 @@
 										</div>
 									</td>
 									<td class="column-2">Fresh Strawberries</td>
-									<td class="column-3">Rs 3600</td>
-									<td class="column-4">
+									<td class="column-3">S - Pink</td>
+									<td class="column-4">Rs 3600</td>
+									<td class="column-5">
 										<div class="wrap-num-product flex-w m-l-auto m-r-0">
 											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
 												<i class="fs-16 zmdi zmdi-minus"></i>
@@ -350,7 +349,7 @@
 											</div>
 										</div>
 									</td>
-									<td class="column-5">Rs 3600</td>
+									<td class="column-6">Rs 3600</td>
 								</tr>
 
 								<tr class="table_row">
@@ -360,8 +359,9 @@
 										</div>
 									</td>
 									<td class="column-2">Lightweight Jacket</td>
-									<td class="column-3">Rs 1600</td>
-									<td class="column-4">
+									<td class="column-3">XS - Blue</td>
+									<td class="column-4">Rs 1600</td>
+									<td class="column-5">
 										<div class="wrap-num-product flex-w m-l-auto m-r-0">
 											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
 												<i class="fs-16 zmdi zmdi-minus"></i>
@@ -374,7 +374,7 @@
 											</div>
 										</div>
 									</td>
-									<td class="column-5">Rs 1600</td>
+									<td class="column-6">Rs 1600</td>
 								</tr>
 							</table>
 						</div>
@@ -496,35 +496,35 @@
 
 					<ul>
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'Guest:catalog' %}men" class="stext-107 cl7 hov-cl1 trans-04">
 								Men
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'Guest:catalog' %}women" class="stext-107 cl7 hov-cl1 trans-04">
 								Women
 							</a>
 						</li>
 
-						
+
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'Guest:catalog' %}white" class="stext-107 cl7 hov-cl1 trans-04">
 								Fearless White
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'Guest:catalog' %}stain-repellent" class="stext-107 cl7 hov-cl1 trans-04">
 								Stain Repellent
 							</a>
 						</li>
 
-						
+
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'Guest:catalog' %}anti-odor" class="stext-107 cl7 hov-cl1 trans-04">
 								Anti Odor
 							</a>
 						</li>
@@ -545,19 +545,19 @@
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Returns 
-							</a>
-						</li>
-
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Shipping
+								Shipping & Returns
 							</a>
 						</li>
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
 								FAQs
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="{% url 'Guest:contact' %}" class="stext-107 cl7 hov-cl1 trans-04">
+								Report Issues
 							</a>
 						</li>
 					</ul>
@@ -569,15 +569,16 @@
 					</h4>
 
 					<p class="stext-107 cl7 size-201">
-						Any questions? Let us know through your emails to contact@prestige-apparel.com or call us on (+92) 332 7155234
+						Any questions? Let us know through your emails to contact@prestige-apparel.com or call us on
+						(+92) 332 7155234
 					</p>
 
 					<div class="p-t-27">
-						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="https://www.facebook.com/Prestige.Fearless/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i class="fa fa-facebook"></i>
 						</a>
 
-						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="https://www.instagram.com/Prestige.Fearless/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i class="fa fa-instagram"></i>
 						</a>
 
@@ -589,9 +590,11 @@
 						Newsletter
 					</h4>
 
-					<form>
+					<form method = 'post' action={% url 'Guest:email' %}>
+						{% csrf_token %}
 						<div class="wrap-input1 w-full p-b-4">
-							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="email@example.com">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
+								placeholder="email@example.com">
 							<div class="focus-input1 trans-04"></div>
 						</div>
 
@@ -603,10 +606,21 @@
 					</form>
 				</div>
 			</div>
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;
+					<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
+					made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+						target="_blank">Colorlib</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
-			
+				</p>
+			</div>
+
+
 		</div>
 	</footer>
+
 
 
 	<!-- Back to top -->
