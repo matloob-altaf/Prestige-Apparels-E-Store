@@ -6,5 +6,5 @@ from . import views
 app_name = 'mlmodel'
 
 urlpatterns = [
-    path('',views.modelResults, name='model')
+    path('mlresults',views.modelResults, name='model')
 ]
