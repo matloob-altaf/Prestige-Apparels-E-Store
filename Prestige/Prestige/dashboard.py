@@ -61,12 +61,23 @@ class CustomIndexDashboard(Dashboard):
 
         # append another link list module for "support".
         self.children.append(modules.LinkList(
-            _('Media Management'),
+            _('Inventory Management'),
             column=2,
             children=[
                 {
-                    'title': _('FileBrowser'),
-                    'url': '/admin/filebrowser/browse/',
+                    'title': _('Add Inventory'),
+                    'url': '/admin/Guest/inventory/add',
+                    'external': False,
+                },
+            ]
+        ))
+        self.children.append(modules.LinkList(
+            _('Moderator Management'),
+            column=2,
+            children=[
+                {
+                    'title': _('Edit Moderators'),
+                    'url': '/admin/auth/user',
                     'external': False,
                 },
             ]
