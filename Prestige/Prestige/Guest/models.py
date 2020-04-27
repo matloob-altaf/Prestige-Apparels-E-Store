@@ -1,7 +1,7 @@
 from django.db import models
 from django_countries.fields import CountryField
 from django.contrib.auth.models import User
-
+from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
 # Create your models here.
 
 
@@ -57,6 +57,8 @@ class Reviews(models.Model):
     comments = models.TextField()
     is_visible = models.BooleanField(default=1)
     rating = models.FloatField()
+    #This is added so that our models do not have to do un-necessary things
+    is_reviewed = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -96,3 +98,8 @@ class Order(models.Model):
     def __str__(self):
         name : str
         return self.name
+
+
+#################################3
+
+
