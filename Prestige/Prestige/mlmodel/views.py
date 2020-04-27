@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from Prestige.Prestige.Guest.models import Reviews
+from Guest.models import Reviews
 from nltk.corpus import movie_reviews
 from nltk.classify import NaiveBayesClassifier
 from nltk.classify.util import accuracy as nltk_accuracy
@@ -48,16 +48,16 @@ def SentimentAnalyzer(text):
 # SentimentAnalyzer('It was not that good.')
 
 def modelResults(request):
-    reviews = Reviews.objects.get(is_reviewed=True)
+    reviews = Reviews.objects.all()
     results = []
     for review in reviews:
         results.append(SentimentAnalyzer(review))
     x = ['Positive,Negative']
-    plot_div = plot([Scatter(x=x, y=results,
-                        mode='lines', name='test',
+    plot_div = plot([Bar(x=x, y=results,
+                        name='test',
                         opacity=0.8, marker_color='green')],
                output_type='div')
-    return render(request, "index.html", context={'plot_div': plot_div})
+    return render(request, "model.html", context={'plot_div': plot_div})
 
     
     
