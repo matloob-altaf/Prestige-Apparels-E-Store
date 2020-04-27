@@ -22,9 +22,9 @@ class Product(models.Model):
     is_published = models.BooleanField(default=0)
     featured = models.BooleanField(default=1)
     main_img = models.ImageField(upload_to='product/main_images', verbose_name="Product Main Image")  
-    sec_img = models.ImageField(upload_to='product/sec_images', blank = True,null = True,)
-    third_img = models.ImageField(upload_to='product/sec_images', blank = True,null = True,)
-    fourth_img = models.ImageField(upload_to='product/sec_images', blank = True,null = True,)
+    sec_img = models.ImageField(upload_to='product/sec_images', blank = True,null = True)
+    third_img = models.ImageField(upload_to='product/sec_images', blank = True,null = True)
+    fourth_img = models.ImageField(upload_to='product/sec_images', blank = True,null = True)
     tags = models.CharField(max_length=100,help_text="Write all the tags Separated by ',' comma")
     #size = models.ManyToManyField("Variant",editable=True)
 
@@ -46,8 +46,14 @@ class Inventory(models.Model):
     quantity = models.SmallIntegerField()
     product = models.ForeignKey("Product", on_delete=models.CASCADE)   
     
+    def __str__(self):
+        return "PRODUCT: "+ self.product.name + " " +"          SIZE: " +self.size +" " +  self.color +" " + str(self.quantity)
 
+class Newsletter(models.Model):
+    email = models.EmailField(max_length=254)
 
+    def __str__(self):
+        return str(self.email) 
 
 
 class Reviews(models.Model):
@@ -56,11 +62,19 @@ class Reviews(models.Model):
     product = models.ForeignKey("Guest.Product",  on_delete=models.CASCADE)
     comments = models.TextField()
     is_visible = models.BooleanField(default=1)
-    rating = models.FloatField()
+    rating = models.IntegerField()
+
+    #making list against the number of stars in ratings
+    def list_rating(self):
+        a = []
+        for i in range(self.rating):
+            a.append('*')
+        return a
 
 
     def __str__(self):
-        return self.user.name + "'s Review on " + self.product
+        return self.user.first_name + "'s Review on " + self.product.name
+        #<i class="zmdi zmdi-star-half"></i>
 
     #will learn what is this
     #def get_absolute_url(self):

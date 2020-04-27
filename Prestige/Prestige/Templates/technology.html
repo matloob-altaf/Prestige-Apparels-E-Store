@@ -34,7 +34,7 @@
 <body class="animsition">
 	
 	<!-- Header -->
-	<header class="header-v4">
+	<header>
 		<!-- Header desktop -->
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
@@ -49,16 +49,16 @@
 							My Account
 						</a>
 
-						
+
 					</div>
 				</div>
 			</div>
 
 			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
-					
-					<!-- Logo desktop -->		
-					<a href="#" class="logo">
+
+					<!-- Logo desktop -->
+					<a href="{% url 'Guest:Index' %}" class="logo">
 						<img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO">
 					</a>
 
@@ -66,31 +66,34 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li class="active-menu">
-								<a href="#">Home</a>
+								<a href="{% url 'Guest:Index' %}">Home</a>
 							</li>
 
 							<li>
-								<a href="#">Men</a>
+								<a href="{% url 'Guest:catalog' %}men">Men</a>
 							</li>
 
 
 							<li>
-								<a href="#">Women</a>
+								<a href="{% url 'Guest:catalog' %}women">Women</a>
 							</li>
 
 							<li class="label1" data-label1="sale">
-								<a href="#">New Arrivals</a>
+								<a href="{% url 'Guest:catalog'  %}new_arrivals">New Arrivals</a>
 							</li>
 
 							<li>
-								<a href="#">Technology</a>
+								<a href="{% url 'Guest:technology' %}">Technology</a>
 							</li>
 
 							<li>
-								<a href="#">About Us</a>
+								<a href="{% url 'Guest:about' %}">About Us</a>
+							</li>
+							<li>
+								<a href="{% url 'Guest:contact' %}">Contact Us</a>
 							</li>
 						</ul>
-					</div>	
+					</div>
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
@@ -98,23 +101,27 @@
 							<i class="zmdi zmdi-search"></i>
 						</div>
 
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
+							data-notify="2">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
 
-						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<!-- This needs to be implemented -->
+						<a href="#"
+							class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+							data-notify="0">
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</a>
 					</div>
 				</nav>
-			</div>	
+			</div>
 		</div>
 
 		<!-- Header Mobile -->
 		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->		
+			<!-- Logo moblie -->
 			<div class="logo-mobile">
-				<a href="index.html"><img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
+				<a href="{% url 'Guest:Index' %}"><img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
 			</div>
 
 			<!-- Icon header -->
@@ -123,11 +130,14 @@
 					<i class="zmdi zmdi-search"></i>
 				</div>
 
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+					data-notify="2">
 					<i class="zmdi zmdi-shopping-cart"></i>
 				</div>
 
-				<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="0">
+				<!-- This needs to be implemented -->
+				<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
+					data-notify="0">
 					<i class="zmdi zmdi-favorite-outline"></i>
 				</a>
 			</div>
@@ -153,40 +163,39 @@
 				<li>
 					<div class="right-top-bar flex-w h-full">
 						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							Help & FAQs
-						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
 							My Account
 						</a>
-					
+
 					</div>
 				</li>
 			</ul>
 
 			<ul class="main-menu-m">
 				<li>
-					<a href="index.html">Home</a>
+					<a href="{% url 'Guest:Index' %}">Home</a>
 				</li>
 
 				<li>
-					<a href="#">Men</a>
+					<a href="{% url 'Guest:catalog' %}men">Men</a>
 				</li>
 
 				<li>
-					<a href="#">Women</a>
+					<a href="{% url 'Guest:catalog' %}women">Women</a>
 				</li>
 
 				<li class="label1" data-label1="sale">
-					<a href="#">New Arrivals</a>
+					<a href="{% url 'Guest:catalog' %}new_arrivals">New Arrivals</a>
 				</li>
 
 				<li>
-					<a href="#">Technology</a>
+					<a href="{% url 'Guest:technology' %}">Technology</a>
 				</li>
 
 				<li>
-					<a href="#">About Us</a>
+					<a href="{% url 'Guest:about' %}">About Us</a>
+				</li>
+				<li>
+					<a href="{% url 'Guest:contact' %}">Contact Us</a>
 				</li>
 			</ul>
 		</div>
@@ -280,11 +289,11 @@
 					</div>
 
 					<div class="header-cart-buttons flex-w w-full">
-						<a href="shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+						<a href="{% url 'Guest:cart' %}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
 							View Cart
 						</a>
 
-						<a href="shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+						<a href="{% url 'Guest:cart' %}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
 							Check Out
 						</a>
 					</div>
@@ -413,35 +422,35 @@
 
 					<ul>
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'Guest:catalog' %}men" class="stext-107 cl7 hov-cl1 trans-04">
 								Men
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'Guest:catalog' %}women" class="stext-107 cl7 hov-cl1 trans-04">
 								Women
 							</a>
 						</li>
 
-						
+
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'Guest:catalog' %}white" class="stext-107 cl7 hov-cl1 trans-04">
 								Fearless White
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'Guest:catalog' %}stain-repellent" class="stext-107 cl7 hov-cl1 trans-04">
 								Stain Repellent
 							</a>
 						</li>
 
-						
+
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url 'Guest:catalog' %}anti-odor" class="stext-107 cl7 hov-cl1 trans-04">
 								Anti Odor
 							</a>
 						</li>
@@ -462,19 +471,19 @@
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Returns 
-							</a>
-						</li>
-
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Shipping
+								Shipping & Returns
 							</a>
 						</li>
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
 								FAQs
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="{% url 'Guest:contact' %}" class="stext-107 cl7 hov-cl1 trans-04">
+								Report Issues
 							</a>
 						</li>
 					</ul>
@@ -486,15 +495,16 @@
 					</h4>
 
 					<p class="stext-107 cl7 size-201">
-						Any questions? Let us know through your emails to contact@prestige-apparel.com or call us on (+92) 332 7155234
+						Any questions? Let us know through your emails to contact@prestige-apparel.com or call us on
+						(+92) 332 7155234
 					</p>
 
 					<div class="p-t-27">
-						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="https://www.facebook.com/Prestige.Fearless/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i class="fa fa-facebook"></i>
 						</a>
 
-						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+						<a href="https://www.instagram.com/Prestige.Fearless/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i class="fa fa-instagram"></i>
 						</a>
 
@@ -506,9 +516,11 @@
 						Newsletter
 					</h4>
 
-					<form>
+					<form method = 'post' action={% url 'Guest:email' %}>
+						{% csrf_token %}
 						<div class="wrap-input1 w-full p-b-4">
-							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="email@example.com">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
+								placeholder="email@example.com">
 							<div class="focus-input1 trans-04"></div>
 						</div>
 
@@ -520,10 +532,21 @@
 					</form>
 				</div>
 			</div>
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;
+					<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
+					made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+						target="_blank">Colorlib</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
-			
+				</p>
+			</div>
+
+
 		</div>
 	</footer>
+
 
 
 
