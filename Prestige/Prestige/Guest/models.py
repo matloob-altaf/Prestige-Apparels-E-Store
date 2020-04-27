@@ -106,7 +106,14 @@ class User(models.Model):
 """
 
 class Order(models.Model):
-
+    status_codes = [
+        ('p','pending'),('d','delivered'), ('e','enroute')]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey("Guest.Product",  on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+    price = models.PositiveIntegerField(default=0)
+    date_time = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(choices=status_codes, max_length=9,default=status_codes[0])
     def __str__(self):
-        name : str
-        return self.name
+        return str(self.pk) + str(self.user) + self.status
