@@ -2,7 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from Guest.models import Product
 from django.contrib.auth.models import User, auth
-from Guest.models import Reviews
+from Guest.models import Reviews,Inventory 
+from django.db.models import Count
+from plotly.offline import plot
+from plotly.graph_objs import Bar
+
 
 
 
@@ -76,3 +80,22 @@ def addReview(request):
         #return redirect('/')
     
         #return render(request, 'register.html')
+##########################################################################3
+
+def qvisualize(request):
+    results = Inventory.objects.values('size').annotate(dcount=Count('quantity'))
+    x = []
+    y = []
+    for i,result in zip(range(len(results)),results):
+        r = list(result.values())
+        x.append(r[0])
+        y.append(r[1])
+    plot_div = plot([Bar(x=x, y=y,
+                            name='Prestige Smart Analysis',
+                        opacity=0.8, marker_color='green')],
+               output_type='div')
+    return render(request, "model.html", context={'plot_div': plot_div})
+    
+    
+
+    

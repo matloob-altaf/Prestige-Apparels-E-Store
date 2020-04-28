@@ -12,6 +12,8 @@ urlpatterns = [
     path('catalog/<str:category1>', views.catalog, name = "catalog"),
     path('catalog/', views.catalog, name = "catalog"),
     path('addReview',views.addReview, name='addreview'),
+    #Need to move visualize to admin after admin app is created
+    path('visualize',views.qvisualize,name="visualize"),
     
     # for search apperance
     

@@ -4,7 +4,7 @@ from nltk.corpus import movie_reviews
 from nltk.classify import NaiveBayesClassifier
 from nltk.classify.util import accuracy as nltk_accuracy
 from plotly.offline import plot
-from plotly.graph_objs import Scatter,Bar
+from plotly.graph_objs import Bar
 from mlmodel.ml import SentimentAnalyzer
 
 
@@ -26,7 +26,7 @@ def modelResults(request):
     y_data = [sum_positive,sum_negative]
     x_data = ['Positive','Negative']
     plot_div = plot([Bar(x=x_data, y=y_data,
-                            name='test',
+                            name='Prestige Product Sizes',
                         opacity=0.8, marker_color='green')],
                output_type='div')
     return render(request, "model.html", context={'plot_div': plot_div})
