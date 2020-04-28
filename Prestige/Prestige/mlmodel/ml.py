@@ -31,12 +31,13 @@ def SentimentAnalyzer(text):
     # training a naive bayes classifier 
     classifier = NaiveBayesClassifier.train(features_train)
     print('Accuracy:',nltk_accuracy(classifier, features_test))
-
-    probabilities = classifier.prob_classify(extract_features(text.split()))
-    # Pick the maximum value
-    predicted_sentiment = probabilities.max()
-    print("Predicted sentiment:", predicted_sentiment)
-    print("Probability:",round(probabilities.prob(predicted_sentiment), 2))
-
-    return predicted_sentiment  
+    results = []
+    for comment in text:
+        probabilities = classifier.prob_classify(extract_features(comment.split()))
+        # Pick the maximum value
+        predicted_sentiment = probabilities.max()
+        print("Predicted sentiment:", predicted_sentiment)
+        print("Probability:",round(probabilities.prob(predicted_sentiment), 2))
+        results.append(predicted_sentiment)
+    return results  
 # SentimentAnalyzer('It was not that good.')
