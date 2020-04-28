@@ -61,7 +61,7 @@
 				<nav class="limiter-menu-desktop p-l-45">
 
 					<!-- Logo desktop -->
-					<a href="#" class="logo">
+					<a href="{% url 'Guest:Index' %}" class="logo">
 						<img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO">
 					</a>
 
@@ -123,7 +123,7 @@
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->
 			<div class="logo-mobile">
-				<a href="index.html"><img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
+				<a href="{% url 'Guest:Index' %}"><img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
 			</div>
 
 			<!-- Icon header -->
@@ -181,7 +181,7 @@
 				</li>
 
 				<li>
-					<a href="technology.html.html" class="label1 rs1" data-label1="hot">Features</a>
+					<a href="technology.html" class="label1 rs1" data-label1="hot">Features</a>
 				</li>
 
 
