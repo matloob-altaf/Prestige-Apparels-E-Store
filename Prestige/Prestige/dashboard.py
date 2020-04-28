@@ -69,6 +69,12 @@ class CustomIndexDashboard(Dashboard):
                     'url': '/admin/Guest/inventory/add',
                     'external': False,
                 },
+                {
+                    'title': _('Edit Existing Inventory'),
+                    'url': '/admin/Guest/inventory/',
+                    'external': False,
+
+                },
             ]
         ))
         self.children.append(modules.LinkList(
@@ -76,7 +82,12 @@ class CustomIndexDashboard(Dashboard):
             column=2,
             children=[
                 {
-                    'title': _('Edit Moderators'),
+                    'title': _('Add Moderators'),
+                    'url': '/admin/auth/user/add',
+                    'external': False,
+                },
+                {
+                    'title': _('Edit Existing Moderators'),
                     'url': '/admin/auth/user',
                     'external': False,
                 },
