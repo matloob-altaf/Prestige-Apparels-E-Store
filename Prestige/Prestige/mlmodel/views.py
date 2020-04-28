@@ -8,6 +8,9 @@ from plotly.graph_objs import Bar
 from mlmodel.ml import SentimentAnalyzer
 
 
+
+
+
 def modelResults(request):
     reviews = Reviews.objects.all().values_list('comments')
     #reviews = ['Very Nice','Very Beauttiful']

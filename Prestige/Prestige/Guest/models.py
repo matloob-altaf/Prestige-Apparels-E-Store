@@ -44,9 +44,9 @@ class Inventory(models.Model):
     size = models.CharField(choices= SIZE_CHOICES, max_length=3)
     color = models.CharField(max_length=10)
     quantity = models.SmallIntegerField()
-    product = models.ForeignKey("Product", on_delete=models.CASCADE)   
-    
+    product = models.ForeignKey("Product", on_delete=models.CASCADE)
 
+    
 
 
 

@@ -6,6 +6,10 @@ from Guest.models import Reviews,Inventory
 from django.db.models import Count
 from plotly.offline import plot
 from plotly.graph_objs import Bar
+from plotly.graph_objects import Layout
+from plotly.graph_objects import Figure
+from utilities import creatPlotly
+
 
 
 
@@ -83,18 +87,13 @@ def addReview(request):
 ##########################################################################3
 
 def qvisualize(request):
-    results = Inventory.objects.values('size').annotate(dcount=Count('quantity'))
-    x = []
-    y = []
-    for i,result in zip(range(len(results)),results):
-        r = list(result.values())
-        x.append(r[0])
-        y.append(r[1])
-    plot_div = plot([Bar(x=x, y=y,
-                            name='Prestige Smart Analysis',
-                        opacity=0.8, marker_color='green')],
-               output_type='div')
-    return render(request, "model.html", context={'plot_div': plot_div})
+    plot_div = creatPlotly("size",xtitle="Size",ytitle="Quantity",plot_title="Sizes and their quantity in the inventory")
+    plot_div1 = creatPlotly("color",xtitle="Color",ytitle="Quantity",plot_title="Color and their quantity in the inventory")
+    context = {'plot_div':plot_div,
+                'plot_div1':plot_div1}
+
+    return render(request, "model.html", context=context)
+
     
     
 
