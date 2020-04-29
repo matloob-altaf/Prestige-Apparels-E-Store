@@ -58,10 +58,14 @@ class Product(models.Model):
         return self.sec_img
     def give_thirdimg(self):
         return self.third_img
+    def give_fourthimg(self):
+        return self.fourth_img
     def give_secimg(self):
         return self.sec_img
     def give_tags(self):
         return self.tags
+    def give_category(self):
+        return self.category
 
     
 class Inventory(models.Model):
