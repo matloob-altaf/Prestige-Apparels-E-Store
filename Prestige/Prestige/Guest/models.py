@@ -15,12 +15,12 @@ class Product(models.Model):
 
     name = models.CharField(max_length=100)
     description = models.TextField()
-    sale = models.BooleanField(default=1)
+    sale = models.BooleanField(default=True)
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null = True, help_text="Leave Blank If there's no discount")
     slug = models.SlugField()
-    is_published = models.BooleanField(default=0)
-    featured = models.BooleanField(default=1)
+    is_published = models.BooleanField(default=False)
+    featured = models.BooleanField(default=True)
     main_img = models.ImageField(upload_to='product/main_images', verbose_name="Product Main Image")  
     sec_img = models.ImageField(upload_to='product/sec_images', blank = True,null = True,)
     third_img = models.ImageField(upload_to='product/sec_images', blank = True,null = True,)
@@ -32,9 +32,36 @@ class Product(models.Model):
     category = models.CharField(max_length=300,verbose_name="Add Categories",help_text= "Separate with comma Select from following: " + ", ".join([choice for choice in choices]), blank=True ) #remove blank = True when migrating to final db
     variants : str # dictionary {'color':['red','blue','green'], 'size':['s','m','l']}#size menu #color shown #quantity of each separately
 
-    def category_list(self):
+    #functions for testing models added
+    def give_category_list(self):
         lst = ",".split(self.category)
         return " ".join(lst)
+    def give_name(self):
+        return self.name
+    def give_description(self):
+        return self.description
+    def give_sale(self):
+        return self.sale
+    def give_price(self):
+        return self.price
+    def give_discount_price(self):
+        return self.discount_price
+    def give_slug(self):
+        return self.slug
+    def give_published(self):
+        return self.is_published
+    def give_featured(self):
+        return self.featured
+    def give_mainimg(self):
+        return self.main_img
+    def give_secimg(self):
+        return self.sec_img
+    def give_thirdimg(self):
+        return self.third_img
+    def give_secimg(self):
+        return self.sec_img
+    def give_tags(self):
+        return self.tags
 
     
 class Inventory(models.Model):
@@ -45,7 +72,16 @@ class Inventory(models.Model):
     color = models.CharField(max_length=10)
     quantity = models.SmallIntegerField()
     product = models.ForeignKey("Product", on_delete=models.CASCADE)
-
+    
+    
+    def give_size(self):
+        return self.size
+    def give_color(self):
+        return self.color
+    def give_quantity(self):
+        return self.quantity
+    def give_product(self):
+        return self.product
     
 
 
@@ -64,6 +100,18 @@ class Reviews(models.Model):
     def __str__(self):
         return self.user.name + "'s Review on " + self.product
 
+    def give_user(self):
+        return self.user
+    def give_product(self):
+        return self.product
+    def give_comments(self):
+        return self.comments
+    def give_is_visible(self):
+        return self.is_visible
+    def give_rating(self):
+        return self.rating
+    def give_is_reviewed(self):
+        return self.is_reviewed
     #will learn what is this
     #def get_absolute_url(self):
     #    return reverse("_detail", kwargs={"pk": self.pk})

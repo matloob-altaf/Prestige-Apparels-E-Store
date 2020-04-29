@@ -22,7 +22,7 @@ urlpatterns = [
     # path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('', include(('Guest.urls', 'Guest'), namespace = 'Guest')),
-    path('model/',include(('mlmodel.urls', 'Guest'), namespace = 'Guest'))
+    path('model/',include(('mlmodel.urls')))
     #include(('home.urls', 'home'), namespace='home')
 
 ]

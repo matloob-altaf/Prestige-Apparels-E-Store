@@ -8,7 +8,7 @@ from plotly.offline import plot
 from plotly.graph_objs import Bar
 from plotly.graph_objects import Layout
 from plotly.graph_objects import Figure
-from utilities import creatPlotly
+from Guest.utilities import creatPlotly
 
 
 
