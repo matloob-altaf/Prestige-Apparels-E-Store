@@ -30,7 +30,6 @@ class InventoryTestCase(TestCase):
             quantity="20",
             product = prod
         )
-        
     def test_give_size(self):
         '''function to test give_size function of model'''
         obj1 = Inventory.objects.get(size="XS")
@@ -40,7 +39,6 @@ class InventoryTestCase(TestCase):
         self.assertNotEqual(obj1.give_size(),"L")
         self.assertNotEqual(obj1.give_size(),"XL")
         self.assertNotEqual(obj1.give_size(),"XXL")
-    
     def test_give_color(self):
         '''function to test give_color function'''
         obj1 = Inventory.objects.get(color="Blue")
@@ -48,7 +46,6 @@ class InventoryTestCase(TestCase):
         colorList = ["Brown","Gray","Pink","Red","Green","Purple"]
         for color in colorList:
             self.assertNotEqual(obj1.give_color(),color)
-    
     def test_give_quantity(self):
         '''function to test give_quantity function'''
         obj1 = Inventory.objects.get(quantity=20)
@@ -58,8 +55,6 @@ class InventoryTestCase(TestCase):
                 continue
             else:
                 self.assertNotEqual(obj1.give_quantity(),i)
-
-    
 class ProductTestCase(TestCase):
     '''class to test product model'''
     def setUp(self):
@@ -85,7 +80,6 @@ class ProductTestCase(TestCase):
         obj1 = Product.objects.get(name="MyProduct")
         self.assertEqual(obj1.give_name(),"MyProduct")
         self.assertNotEqual(obj1.give_name(),"NotMyProductName")
-
     def test_description(self):
         '''function to test give_description function'''
         obj1 = Product.objects.get(name="MyProduct")
@@ -151,8 +145,6 @@ class ProductTestCase(TestCase):
         obj1 = Product.objects.get(name="MyProduct")
         self.assertEqual(obj1.give_category(),"my category")
         self.assertNotEqual(obj1.give_category(),"Men categoory")
-
-
 class TestUrl(TestCase):
     '''class to test url resolution by testing app name and views names'''
     def test_resolution_for_apps(self):

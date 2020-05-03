@@ -11,30 +11,16 @@ from plotly.graph_objects import Figure
 from Guest.utilities import creatPlotly
 
 
-
-
-
-# Create your views here.
-
-
 def index(request):
     '''Base page url'''
     product = Product.objects.filter(featured = True)
     return render(request,'index.html',{'products':product })
 
-
-#return the product on the template of single product with slug 
 def singleProduct(request, slug1):
     '''function to view single product'''
     product = Product.objects.get(slug = slug1)
     return render(request,'product.html',{'product':product})
 
-"""
-def singleProduct(request):
-    return render(request,'product.html')
-"""
-
-#return the all the products on the shop page template with given category 
 def catalog(request, category1=" "):
     '''function to view products based on category'''
     if (category1 != " "):
@@ -59,12 +45,6 @@ def Cart(request):
     '''function to render the shopping cart'''
     return render(request,'shoping-cart.html')
 
-
-
-# Will make a class once all views functions are clear to me
-# Customer class here that will be able to handle all the shopping stuff done by customer
-
-
 def addReview(request):
     '''function to add review'''
     if request.method == 'POST':
@@ -75,10 +55,6 @@ def addReview(request):
         if (user.is_autheticated):
             user = user
         product = Product.Object.get(slug = request.GET['product'].slug)
-
-
-        
-        
         review = Reviews(user=user, product = product, comments=comment, rating=rating)
         review.save();
         print('Review Added')
@@ -90,7 +66,6 @@ def addReview(request):
         #return redirect('/')
     
         #return render(request, 'register.html')
-##########################################################################3
 
 def qvisualize(request):
     '''function to produce plots of various products'''

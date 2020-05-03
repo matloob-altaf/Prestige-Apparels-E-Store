@@ -16,12 +16,14 @@ import pickle
 #    print("Saved the classifier")
 
 def load_classifier():
-   f = open('my_classifier.pickle', 'rb')
-   classifier = pickle.load(f)
-   f.close()
-   return classifier
+    '''function to load the classifier'''
+    f = open('my_classifier.pickle', 'rb')
+    classifier = pickle.load(f)
+    f.close()
+    return classifier
 
 def SentimentAnalyzer(text):
+    '''function to perform setiment analysis on list of test'''
     # load movie reviews from sample data
     # fileids_pos = movie_reviews.fileids('pos')
     # fileids_neg = movie_reviews.fileids('neg')

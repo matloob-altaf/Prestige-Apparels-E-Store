@@ -19,6 +19,5 @@ urlpatterns = [
     path('cart/', views.Cart, name = "shopping"), #page for cart
     path('technology/', views.technology, name = "technology"), #page for technology used
     path('about/', views.about, name = "about"), #page for about the store
-    path('contact/', views.about, name = "contact"),#page to contact in case of any problem
-    
+    path('contact/', views.about, name = "contact"),#page to contact in case of any problem   
 ]
