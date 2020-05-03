@@ -18,13 +18,14 @@ from Guest.utilities import creatPlotly
 
 
 def index(request):
-    #Check the request if data is to be shown dynamic
+    '''Base page url'''
     product = Product.objects.filter(featured = True)
     return render(request,'index.html',{'products':product })
 
 
 #return the product on the template of single product with slug 
 def singleProduct(request, slug1):
+    '''function to view single product'''
     product = Product.objects.get(slug = slug1)
     return render(request,'product.html',{'product':product})
 
@@ -35,6 +36,7 @@ def singleProduct(request):
 
 #return the all the products on the shop page template with given category 
 def catalog(request, category1=" "):
+    '''function to view products based on category'''
     if (category1 != " "):
         product_to_show = Product.objects.filter(category__contains = category1 ) #assuming now that all the categories are added in a single string separated by comma or space
         p1 = Product.objects.filter(name__contains = category1 )
@@ -46,12 +48,15 @@ def catalog(request, category1=" "):
         return render(request,'catalog.html',{'Products':product_to_show})
 
 def technology(request):
+    '''function to render the technology page'''
     return render(request,'technology.html')
 
 def about(request):
+    '''function to render the about page'''
     return render(request,'about.html')
 
 def Cart(request):
+    '''function to render the shopping cart'''
     return render(request,'shoping-cart.html')
 
 
@@ -61,6 +66,7 @@ def Cart(request):
 
 
 def addReview(request):
+    '''function to add review'''
     if request.method == 'POST':
         comment = request.POST['review']
         rating = request.POST['rating']
@@ -87,11 +93,11 @@ def addReview(request):
 ##########################################################################3
 
 def qvisualize(request):
+    '''function to produce plots of various products'''
     plot_div = creatPlotly("size",xtitle="Size",ytitle="Quantity",plot_title="Sizes and their quantity in the inventory")
     plot_div1 = creatPlotly("color",xtitle="Color",ytitle="Quantity",plot_title="Color and their quantity in the inventory")
     context = {'plot_div':plot_div,
                 'plot_div1':plot_div1}
-
     return render(request, "model.html", context=context)
 
     
