@@ -1,3 +1,9 @@
+from Guest.models import Inventory
+from django.db.models import Count
+from plotly.offline import plot
+from plotly.graph_objs import Bar
+from plotly.graph_objects import Layout
+from plotly.graph_objects import Figure
 def creatPlotly(label,xtitle,ytitle,plot_title):
     results = Inventory.objects.values(label).annotate(dcount=Count("quantity"))
     x = []

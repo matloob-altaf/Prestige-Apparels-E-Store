@@ -12,12 +12,13 @@ def modelResults(request):
     is trained on roman urdu dataset as the audience of our app is Pakistani
     People who frequently uses roman urdu in day to day arguments'''
     reviews = Reviews.objects.all().values_list('comments') #Fetching comments
-    #reviews = ['Very Nice','Very Beauttiful'] #Pseudo reviews used for testing 
+    #reviews = ['yeh kia ha','Very Beauttiful',"bakwas tareen product"] #Pseudo reviews used for testing 
     texts = []
     #Creating a list of comments
     for review,i in zip(reviews,range(len(reviews))):
         texts.append(review[0][i])
     #Passing the result to the sentiment analyzer function 
+    texts = ['yeh kia ha','Very Beauttiful',"bakwas tareen product","yeh kesa product ha"]
     results = SentimentAnalyzer(texts)
     #Summing the positive and negative comments
     sum_positive = 0
