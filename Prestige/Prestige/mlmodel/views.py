@@ -18,7 +18,7 @@ def modelResults(request):
     for review,i in zip(reviews,range(len(reviews))):
         texts.append(review[0][i])
     #Passing the result to the sentiment analyzer function 
-    texts = ['yeh kia ha','Very Beauttiful',"bakwas tareen product","yeh kesa product ha"]
+    #texts = ['yeh kia ha','Very Beauttiful',"bakwas tareen product","yeh kesa product ha"]
     results = SentimentAnalyzer(texts)
     #Summing the positive and negative comments
     sum_positive = 0
