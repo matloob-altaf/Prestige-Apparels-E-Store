@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from Guest.models import Product
 from django.contrib.auth.models import User, auth
-from Guest.models import Reviews, Newsletter
+from Guest.models import Reviews, Newsletter, Inventory
 from django.urls import reverse
+
+
+
 
 
 def index(request):
@@ -15,8 +18,12 @@ def index(request):
 def singleProduct(request, slug1):
     product1 = Product.objects.get(slug = slug1)
     reviews = Reviews.objects.filter(product = product1)
+    inventorys = Inventory.objects.filter(product = product1).exclude(quantity = 0)
+    
+
+
     number_reviews = len(reviews)
-    return render(request,'product.html',{'product':product1,'reviews':reviews,'len':number_reviews})
+    return render(request,'product.html',{'product':product1,'reviews':reviews,'len':number_reviews, 'inventory':inventorys})
 
 
     # return the all the products on the shop page template with given category 
@@ -43,6 +50,10 @@ def contact(request):
 def cart(request):
     return render(request,'shoping-cart.html')
 
+
+#
+#
+# Make it work
 def search():
     pass
     product_to_show = Product.objects.filter(category__contains = category1 ) #assuming now that all the categories are added in a single string separated by comma or space
@@ -68,6 +79,8 @@ def addReview(request, id1, user_id1):
         print('Review Added')
 
         return redirect('Guest:product',product1.slug)
+
+
 
 def addEmail(request):
     if request.method == 'POST':

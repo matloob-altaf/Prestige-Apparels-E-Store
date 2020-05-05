@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
-    path('', include(('Guest.urls', 'Guest'), namespace = 'Guest'))
+    path('', include(('Guest.urls', 'Guest'), namespace = 'Guest')),
+    path('account/', include(('login_system.urls', 'login_system'), namespace = 'login_system'))
     #include(('home.urls', 'home'), namespace='home')
 
 ]

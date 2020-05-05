@@ -408,10 +408,9 @@
 									<div class="rs1-select2 bor8 bg0">
 										<select class="js-select2" name="time">
 											<option>Choose an option</option>
-											<option>Size S</option>
-											<option>Size M</option>
-											<option>Size L</option>
-											<option>Size XL</option>
+											{% for i in inventory %}
+											<option>Size {{i.size}}</option>
+											{% endfor %}
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
@@ -427,10 +426,9 @@
 									<div class="rs1-select2 bor8 bg0">
 										<select class="js-select2" name="time">
 											<option>Choose an option</option>
-											<option>Red</option>
-											<option>Blue</option>
-											<option>White</option>
-											<option>Grey</option>
+											{% for i in inventory %}
+											<option>{{i.color}}</option>
+											{% endfor %}
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
@@ -466,11 +464,11 @@
 								</a>
 							</div>
 
-							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+							<a href="https://web.facebook.com/Prestige.Fearless" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
 								<i class="fa fa-facebook"></i>
 							</a>
 							
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<a href="https://www.instagram.com/Prestige.Fearless" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 									<i class="fa fa-instagram"></i>
 							</a>
 							
@@ -1088,10 +1086,9 @@
 										<div class="rs1-select2 bor8 bg0">
 											<select class="js-select2" name="time">
 												<option>Choose an option</option>
-												<option>Size S</option>
-												<option>Size M</option>
-												<option>Size L</option>
-												<option>Size XL</option>
+												{% for i in inventory %}
+												<option>Size {{i.size}}</option>
+												{% endfor %}
 											</select>
 											<div class="dropDownSelect2"></div>
 										</div>
@@ -1107,10 +1104,9 @@
 										<div class="rs1-select2 bor8 bg0">
 											<select class="js-select2" name="time">
 												<option>Choose an option</option>
-												<option>Red</option>
-												<option>Blue</option>
-												<option>White</option>
-												<option>Grey</option>
+												{% for i in inventory %}
+												<option>{{i.color}}</option>
+												{% endfor %}
 											</select>
 											<div class="dropDownSelect2"></div>
 										</div>
@@ -1146,11 +1142,11 @@
 									</a>
 								</div>
 
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+								<a href="https://web.facebook.com/Prestige.Fearless" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
 									<i class="fa fa-facebook"></i>
 								</a>
 
-								<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+								<a href="https://www.instagram.com/Prestige.Fearless" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 									<i class="fa fa-instagram"></i>
 								</a>
 

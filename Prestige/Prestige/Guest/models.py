@@ -30,12 +30,13 @@ class Product(models.Model):
 
     #category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default = 'none')
     category = models.CharField(max_length=300,verbose_name="Add Categories",help_text= "Separate with comma Select from following: " + ", ".join([choice for choice in choices]), blank=True ) #remove blank = True when migrating to final db
-    variants : str # dictionary {'color':['red','blue','green'], 'size':['s','m','l']}#size menu #color shown #quantity of each separately
 
     def category_list(self):
         lst = ",".split(self.category)
         return " ".join(lst)
 
+    def __str__(self):
+        return self.name
     
 class Inventory(models.Model):
     SIZE_CHOICES = [
@@ -108,5 +109,4 @@ class User(models.Model):
 class Order(models.Model):
 
     def __str__(self):
-        name : str
-        return self.name
+        pass
