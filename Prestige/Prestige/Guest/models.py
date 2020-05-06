@@ -60,6 +60,8 @@ class Newsletter(models.Model):
         return str(self.email) 
 
 
+
+
 class Reviews(models.Model):
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -98,36 +100,24 @@ class Customer(models.Model):
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1, default='O')
 
     def _str_(self):
-        return self.user.get_full_name()
+        return str(self.user.email)
 
 
 
-"""
-class User(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    phone_number = models.IntegerField()
-    email : models.EmailField( max_length=254)
-    profile_pic = models.ImageField(upload_to='user_profiles')
+class Orders(models.Model):
+    STATUS_CHOICES = [
+        ('IN PROCESS', 'In Process'),
+        ('SHIPPED', 'Shipped'),
+        ('RECEIVED', 'Received')
+    ]
+    customer = models.ForeignKey("Guest.Customer", on_delete=models.CASCADE)
+    product = models.ManyToManyField("Guest.Product")
+    status = models.CharField(choices=STATUS_CHOICES, max_length=15, default='IN PROCESS')
+    order_date = models.DateField(auto_now=False, auto_now_add=True)
+    order_time = models.TimeField(auto_now=False, auto_now_add=True)
 
-    # These all will be revised
-    address = models.CharField(max_length=300)
-    state = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    country = CountryField()
-    gender = models.CharField(max_length=100)
-    username = models.CharField(max_length=100)  # Need to set
-    password = models.CharField(max_length=100)  # Will be changed once study forms forms.PasswordInput
     
-        
-    def __str__(self):
-        return self.first_name + " " + self.last_name
-
-    #def get_absolute_url(self):
-    #    return re", kwargs={"pk": self.pk})
-"""
-
-class Order(models.Model):
 
     def __str__(self):
-        pass
+        return "ORDER ID: " + str(self.pk) + " -------  CUSTOMER: " + str(self.customer.user.username) + " --------- " + str(self.product.all()) + " ---------  ORDER DATE: " + str(self.order_date) + " ---------  DELIVERY STATUS: " + str(self.status)
+
