@@ -16,6 +16,7 @@ def signup(request):
         password1 = request.POST['password1']
         password2 = request.POST['password2']    
         gender = request.POST['gender']
+        phone = request.POST['phone']
 
         if password1 == password2:
         
@@ -29,8 +30,10 @@ def signup(request):
                 return redirect('signup')
         
             else:
-                user = User.objects.create_user(username=username, password=password1, email=email, first_name=first_name, last_name = last_name)
+                user = User.objects.create_user(username=username, password=password1, email=email, first_name=first_name, last_name = last_name, is_staff = False, is_admin = False)
+
                 user.save();
+                
                 print('user created')
                 return redirect('login_system:login')
         
@@ -44,7 +47,7 @@ def signup(request):
         return render(request, 'signup.html')
 
 
-def login(request):
+def login(request, next = "/account/customer"):
     if request.method == 'POST':
         username = request.POST['username']
         
@@ -53,7 +56,7 @@ def login(request):
 
         if user is not None:
             auth.login(request,user)
-            return redirect("/")
+            return redirect(next)
         else:
             messages.info(request,'invalid credentials')
             return redirect('login')

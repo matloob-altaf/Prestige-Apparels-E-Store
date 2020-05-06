@@ -13,8 +13,7 @@ def index(request):
     product = Product.objects.filter(featured = True)
     return render(request,'index.html',{'products':product })
 
-
-    # return the product on the template of single product with slug 
+# return the product on the template of single product with slug 
 def singleProduct(request, slug1):
     product1 = Product.objects.get(slug = slug1)
     reviews = Reviews.objects.filter(product = product1)
@@ -25,9 +24,9 @@ def singleProduct(request, slug1):
     number_reviews = len(reviews)
     return render(request,'product.html',{'product':product1,'reviews':reviews,'len':number_reviews, 'inventory':inventorys})
 
-
-    # return the all the products on the shop page template with given category 
+# return the all the products on the shop page template with given category 
 def catalog(request, category1=" "):
+    print("catalog called")
     if (category1 != " "):
         product_to_show = Product.objects.filter(category__contains = category1 ) #assuming now that all the categories are added in a single string separated by comma or space
         p1 = Product.objects.filter(name__contains = category1 )
@@ -51,19 +50,20 @@ def cart(request):
     return render(request,'shoping-cart.html')
 
 
-#
-#
-# Make it work
-def search():
-    pass
-    product_to_show = Product.objects.filter(category__contains = category1 ) #assuming now that all the categories are added in a single string separated by comma or space
-    p1 = Product.objects.filter(name__contains = category1 )
-    p2 = Product.objects.filter(description__contains = category1 )
+def search(request):
+    print("CALLED")
+    text = request.GET['search']
+    text = text.lower()
+    text = " ".split(text)
 
+    pts = Product.objects.none()
 
-
-# Will make a class once all views functions are clear to me
-# Customer class here that will be able to handle all the shopping stuff done by customer
+    for x in text:            
+        pts = Product.objects.filter(category__contains = x).union(pts) #assuming now that all the categories are added in a single string separated by comma or space
+        pts = Product.objects.filter(name__contains = x ).union(pts)
+        pts = Product.objects.filter(description__contains = x ).union(pts)
+    
+    return render(request,'catalog.html',{'Products':pts})
 
 
 def addReview(request, id1, user_id1):
@@ -79,7 +79,6 @@ def addReview(request, id1, user_id1):
         print('Review Added')
 
         return redirect('Guest:product',product1.slug)
-
 
 
 def addEmail(request):

@@ -1,6 +1,8 @@
 from django.db import models
 from django_countries.fields import CountryField
 from django.contrib.auth.models import User
+from phonenumber_field.modelfields import PhoneNumberField
+
 
 # Create your models here.
 
@@ -10,6 +12,7 @@ class CategoryChoices(models.Model):
     choice = models.CharField(verbose_name="Add New Category Type", max_length=50)
 
 choices = ['men','women','stain-repellent','anti-odor','upper','bottom','spring-collection', 'summer-collection','winter-collection','autumn-collection']
+
 
 class Product(models.Model):
 
@@ -80,6 +83,24 @@ class Reviews(models.Model):
     #will learn what is this
     #def get_absolute_url(self):
     #    return reverse("_detail", kwargs={"pk": self.pk})
+
+
+
+class Customer(models.Model):
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other')
+    ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    phone_number = PhoneNumberField(null=False, blank=False)
+    address = models.TextField(blank=True, null=True)
+    gender = models.CharField(choices=GENDER_CHOICES, max_length=1, default='O')
+
+    def _str_(self):
+        return self.user.get_full_name()
+
+
 
 """
 class User(models.Model):

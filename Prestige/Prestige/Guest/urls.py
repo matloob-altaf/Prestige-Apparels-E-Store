@@ -15,6 +15,7 @@ urlpatterns = [
     path('addReview/<int:id1><user_id1>',views.addReview, name='addReview'),
     path('email/',views.addEmail, name='email'),
     
+    
     # for search apperance
     
     
@@ -22,6 +23,6 @@ urlpatterns = [
     path('technology/', views.technology, name = "technology"),
     path('about/', views.about, name = "about"),
     path('contact/', views.contact, name = "contact"),
-    
+    path('search', views.search, name = "search")
 
 ]

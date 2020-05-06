@@ -423,6 +423,11 @@
 			<span class="focus-input100"></span>
 		</div>
 		
+		<div class="wrap-input100 rs3-wrap-input100 validate-input m-b-20" >
+			<input id="phone number" class="input100" type="tel" name="phone" placeholder="Phone Number">
+			<span class="focus-input100"></span>
+		</div>
+
 		<div class="wrap-input100 rs3-wrap-input100 validate-input m-b-20 text-center" >
 			<select name="gender" id="" class="form-control">
 				<option value="" disabled selected>Gender</option>
@@ -436,7 +441,17 @@
 				Sign up
 			</button>
 		</div>
+		<span class="login100-form-title p-t-25 p-b-34">
+				Already Registered?
+			</span>
+			
+			<div class="container-login100-form-btn d-flex justify-content-center">
+				<a href="{% url 'login_system:login' %}" class="login100-form-btn">
+					Login Here!
+				</a>
+			</div>
 	</form>
+			
 </div>
 
 
