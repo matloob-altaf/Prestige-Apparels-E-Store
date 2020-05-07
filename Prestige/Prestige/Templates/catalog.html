@@ -300,11 +300,11 @@
 		</div>
 	</div>
 	{% if messages %}
-	<ul class="messages">
+	<ul class="messages p-t-20 p-b-20">
 		{% for message in messages %}
 		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
 			{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
-			<div class="alert alert-warning txt-center" role="alert">
+			<div class="alert alert-warning txt-center " role="alert">
 				{{ message }}
 			  </div> 
 			{% endif %}
