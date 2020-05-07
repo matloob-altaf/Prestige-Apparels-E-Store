@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django_heroku
+# import django_heroku
 # from whitenoise.django import DjangoWhiteNoise
 
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bootcamp.settings")
@@ -39,7 +39,7 @@ DEBUG = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ['https://prestigestore.herokuapp.com/']
+ALLOWED_HOSTS = []
 
 
 # Application definition
