@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
+from Guest.models import Customer, Orders
 
 # Create your views here.
 
@@ -31,16 +32,16 @@ def signup(request):
         
             else:
                 user = User.objects.create_user(username=username, password=password1, email=email, first_name=first_name, last_name = last_name, is_staff = False, is_admin = False)
-
-                user.save();
+                customer = Customer(user = user, phone_number = phone, address = NULL, gender = gender)
+                customer.save()
                 
-                print('user created')
+                print('Customer created')
                 return redirect('login_system:login')
         
         else:
             print('password not matching...')
             messages.info(request,'Password does not match')
-            return redirect('register')
+            return redirect('signup')
 
         return redirect('/')
     else:
@@ -67,3 +68,15 @@ def login(request, next = "/account/customer"):
 def logout(request):
     auth.logout(request)
     return redirect('/')
+
+def customerAccount(request):
+
+    if (request.user.is_authenticated()):
+        cust = Customer.objects.get(user = request.user)
+        orders = Orders.objects.filter(customer = cust)
+        return render(request,'customer.html',{'orders':orders})
+    else:
+        pass
+
+def cancelOrder(request):
+    pass
