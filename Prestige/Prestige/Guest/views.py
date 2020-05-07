@@ -5,6 +5,11 @@ from django.contrib.auth.models import User, auth
 from Guest.models import Reviews, Newsletter, Inventory
 from django.urls import reverse
 from django.contrib import messages
+from plotly.offline import plot
+from plotly.graph_objs import Bar
+from plotly.graph_objects import Layout
+from plotly.graph_objects import Figure
+from Guest.utilities import creatPlotly
 
 
 
@@ -94,3 +99,13 @@ def addEmail(request):
         #return redirect('Guest:product',product1.slug)
         #return redirect(request.path)
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '#'))
+
+def qvisualize(request):
+    '''function to produce plots of various products'''
+    plot_div = creatPlotly("size",xtitle="Size",ytitle="Quantity",plot_title="Sizes and their quantity in the inventory")
+    plot_div1 = creatPlotly("color",xtitle="Color",ytitle="Quantity",plot_title="Color and their quantity in the inventory")
+    context = {'plot_div':plot_div,
+                'plot_div1':plot_div1}
+    return render(request, "model.html", context=context)
+
+    
