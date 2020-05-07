@@ -14,6 +14,7 @@ urlpatterns = [
     path('catalog/', views.catalog, name = "catalog"),
     path('addReview/<int:id1><user_id1>',views.addReview, name='addReview'),
     path('email/',views.addEmail, name='email'),
+    path('visualize',views.qvisualize,name="visualize"), #page for product visualization
     
     
     # for search apperance

@@ -299,7 +299,20 @@
 			</div>
 		</div>
 	</div>
-
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+			{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+			<div class="alert alert-warning txt-center" role="alert">
+				{{ message }}
+			  </div> 
+			{% endif %}
+			
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
 	
 	<!-- Product -->
 	<section class="bg0 p-t-23 p-b-140">

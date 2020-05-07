@@ -4,6 +4,12 @@ from Guest.models import Product
 from django.contrib.auth.models import User, auth
 from Guest.models import Reviews, Newsletter, Inventory
 from django.urls import reverse
+from django.contrib import messages
+from plotly.offline import plot
+from plotly.graph_objs import Bar
+from plotly.graph_objects import Layout
+from plotly.graph_objects import Figure
+from Guest.utilities import creatPlotly
 
 
 
@@ -51,18 +57,18 @@ def cart(request):
 
 
 def search(request):
-    print("CALLED")
     text = request.GET['search']
     text = text.lower()
-    text = " ".split(text)
-
+    text = text.split()
     pts = Product.objects.none()
 
     for x in text:            
         pts = Product.objects.filter(category__contains = x).union(pts) #assuming now that all the categories are added in a single string separated by comma or space
         pts = Product.objects.filter(name__contains = x ).union(pts)
         pts = Product.objects.filter(description__contains = x ).union(pts)
-    
+    if not pts:
+        messages.info(request,"No product Found") 
+        print(messages)
     return render(request,'catalog.html',{'Products':pts})
 
 
@@ -93,3 +99,13 @@ def addEmail(request):
         #return redirect('Guest:product',product1.slug)
         #return redirect(request.path)
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '#'))
+
+def qvisualize(request):
+    '''function to produce plots of various products'''
+    plot_div = creatPlotly("size",xtitle="Size",ytitle="Quantity",plot_title="Sizes and their quantity in the inventory")
+    plot_div1 = creatPlotly("color",xtitle="Color",ytitle="Quantity",plot_title="Color and their quantity in the inventory")
+    context = {'plot_div':plot_div,
+                'plot_div1':plot_div1}
+    return render(request, "model.html", context=context)
+
+    

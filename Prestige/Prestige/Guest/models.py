@@ -121,3 +121,5 @@ class Orders(models.Model):
     def __str__(self):
         return "ORDER ID: " + str(self.pk) + " -------  CUSTOMER: " + str(self.customer.user.username) + " --------- " + str(self.product.all()) + " ---------  ORDER DATE: " + str(self.order_date) + " ---------  DELIVERY STATUS: " + str(self.status)
 
+class Cart(models.Model):
+    product = models.ManyToManyField(Product,null=True,blank = True)
