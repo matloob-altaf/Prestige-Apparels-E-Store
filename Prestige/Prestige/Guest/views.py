@@ -4,6 +4,7 @@ from Guest.models import Product
 from django.contrib.auth.models import User, auth
 from Guest.models import Reviews, Newsletter, Inventory
 from django.urls import reverse
+from django.contrib import messages
 
 
 
@@ -51,18 +52,18 @@ def cart(request):
 
 
 def search(request):
-    print("CALLED")
     text = request.GET['search']
     text = text.lower()
-    text = " ".split(text)
-
+    text = text.split()
     pts = Product.objects.none()
 
     for x in text:            
         pts = Product.objects.filter(category__contains = x).union(pts) #assuming now that all the categories are added in a single string separated by comma or space
         pts = Product.objects.filter(name__contains = x ).union(pts)
         pts = Product.objects.filter(description__contains = x ).union(pts)
-    
+    if not pts:
+        messages.info(request,"No product Found") 
+        print(messages)
     return render(request,'catalog.html',{'Products':pts})
 
 
