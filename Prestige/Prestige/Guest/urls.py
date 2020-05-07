@@ -16,10 +16,6 @@ urlpatterns = [
     path('email/',views.addEmail, name='email'),
     path('visualize',views.qvisualize,name="visualize"), #page for product visualization
     
-    
-    # for search apperance
-    
-    
     path('cart/', views.cart, name = "cart"),
     path('technology/', views.technology, name = "technology"),
     path('about/', views.about, name = "about"),

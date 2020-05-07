@@ -390,6 +390,21 @@
 	</div>
 </div>
 
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+			{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+			<div class="alert alert-warning txt-center" role="alert">
+				{{ message }}
+			  </div> 
+			{% endif %}
+			
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+
 <div class="limiter d-flex justify-content-center text-center">
 	<form action = {% url 'login_system:signup' %} method = 'post' class="login100-form validate-form">
 

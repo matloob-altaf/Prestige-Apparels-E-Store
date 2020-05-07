@@ -41,7 +41,7 @@ def catalog(request, category1=" "):
         return render(request,'catalog.html',{'Products':product_to_show})
     else:
         product_to_show = Product.objects.all()
-        return render(request,'catalog.html',{'Products':product_to_show})
+        return render(request,'catalog.html',{'Products':product_to_show, 'heading': True})
 
 def technology(request):
     return render(request,'technology.html')
@@ -69,7 +69,7 @@ def search(request):
     if not pts:
         messages.info(request,"No product Found") 
         print(messages)
-    return render(request,'catalog.html',{'Products':pts})
+    return render(request,'catalog.html',{'Products':pts,'heading':False})
 
 
 def addReview(request, id1, user_id1):
@@ -78,13 +78,16 @@ def addReview(request, id1, user_id1):
         rating = request.POST['rating']
         user1 = User.objects.get(id = user_id1)
         product1 = Product.objects.get(pk = id1)
-        
-        review = Reviews(user=user1, product = product1, is_visible = True, comments=comment, rating=rating)
-        review.save();
 
-        print('Review Added')
+        if (1):
+            review = Reviews(user=user1, product = product1, is_visible = True, comments=comment, rating=rating)
+            review.save();
 
-        return redirect('Guest:product',product1.slug)
+            print('Review Added')
+
+            return redirect('Guest:product',product1.slug)
+        else:
+            pass
 
 
 def addEmail(request):

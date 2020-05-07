@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from Guest.models import Customer, Orders
+from django.urls import reverse
 
 # Create your views here.
 
@@ -22,13 +23,13 @@ def signup(request):
         if password1 == password2:
         
             if User.objects.filter(username = username).exists():
-                messages.info(request,'username already taken')
-                return redirect('register')
+                messages.info(request,'Username Already Taken')
+                return redirect('login_system:signup')
         
             elif User.objects.filter(email = email).exists():
                 print('username already taken')
-                messages.info(request,'email already registered')
-                return redirect('signup')
+                messages.info(request,'Email already registered')
+                return redirect('login_system:signup')
         
             else:
                 user = User.objects.create_user(username=username, password=password1, email=email, first_name=first_name, last_name = last_name, is_staff = False, is_admin = False)
@@ -36,12 +37,13 @@ def signup(request):
                 customer.save()
                 
                 print('Customer created')
+                messages.info(request,'Please Login to Continue')
                 return redirect('login_system:login')
         
         else:
             print('password not matching...')
             messages.info(request,'Password does not match')
-            return redirect('signup')
+            return redirect('login_system:signup')
 
         return redirect('/')
     else:
@@ -54,29 +56,35 @@ def login(request, next = "/account/customer"):
         
         password = request.POST['password1']      
         user = auth.authenticate(username=username,password = password)  
-
-        if user is not None:
+        
+        cust = Customer.objects.filter(user = user)
+        if (user is not None and cust):
+            print("Customer Found")
             auth.login(request,user)
             return redirect(next)
+
         else:
-            messages.info(request,'invalid credentials')
-            return redirect('login')
+            print("Customer Not Found")
+            messages.info(request,'Invalid Credentials Or Customer Does Not Exist')
+            return redirect('login_system:login')
     
     if request.method == 'GET':
         return render(request,'login.html')
 
-def logout(request):
+def logout(request, next='/'):
+    #next = request.path
     auth.logout(request)
-    return redirect('/')
+    return redirect(next)
 
 def customerAccount(request):
 
-    if (request.user.is_authenticated()):
+    if (request.user.is_authenticated):
         cust = Customer.objects.get(user = request.user)
         orders = Orders.objects.filter(customer = cust)
         return render(request,'customer.html',{'orders':orders})
     else:
-        pass
+        messages.info(request,'You need to login First')
+        return redirect('login')
 
 def cancelOrder(request):
     pass
