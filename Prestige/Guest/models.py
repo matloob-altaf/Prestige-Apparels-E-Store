@@ -129,6 +129,7 @@ class Orders(models.Model):
 
 
 
+
 class CartItem(models.Model):
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -143,7 +144,7 @@ class CartItem(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "cart NO:" + str(self.cart.id) +" Product:"+ self.product.name
+        return self.product.title
 
 
 class Cart(models.Model):
