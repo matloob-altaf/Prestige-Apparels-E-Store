@@ -18,11 +18,10 @@ def index(request):
     return render(request, 'index.html', {'products': product})
 
 
-# return the product on the template of single product with slug
 def singleProduct(request, slug1):
     product1 = Product.objects.get(slug=slug1)
     reviews = Reviews.objects.filter(product=product1)
-    inventorys = Inventory.objects.filter(product=product1).exclude(quantity=0).exclude(active=False)
+    inventorys = Inventory.objects.filter(product=product1).exclude(quantity=0)
     colors = list(set(inventorys.values_list('color', flat=True)))
     sizes = list(set(inventorys.values_list('size', flat=True)))
     quantity = inventorys.values_list('quantity', flat=True)
@@ -48,8 +47,7 @@ def catalog(request, category1=" "):
         return render(request, 'catalog.html', {'Products': product_to_show})
     else:
         product_to_show = Product.objects.all()
-        return render(request, 'catalog.html', {'Products': product_to_show})
-
+        return render(request,'catalog.html',{'Products':product_to_show, 'heading': True})
 
 def technology(request):
     return render(request, 'technology.html')
@@ -58,6 +56,108 @@ def technology(request):
 def about(request):
     return render(request, 'about.html')
 
+
+def contact(request):
+    return render(request, 'contact.html')
+
+def view_cart(request):
+    try:
+        the_id = request.session['cart_id']
+    except:
+        the_id = None
+        print("here")
+    if the_id:
+        cart = Cart.objects.get(id=the_id)
+        new_total = 0.00
+        for item in cart.cartitem_set.all():
+            per_item_total = item.product.price * item.quantity
+            item.sub_total = per_item_total
+            item.save()
+            new_total += per_item_total
+        request.session['item_total'] = cart.cartitem_set.all().count()
+        cart.total = new_total
+        # print(cart.cartitem_set.all().count())
+
+        cart.save()
+        if cart.cartitem_set.all().count() != 0:
+            context = {"cart": cart}
+        else:
+            context = {'empty': True}
+            messages.info(request, "Empty cart please keep shopping")
+    else:
+        context = {'empty': True}
+        messages.info(request, "Empty cart please keep shopping")
+    template = "shoping-cart.html"
+    # print(cart.items)
+    return render(request, template, context)
+
+def remove_from_cart(request, id):
+    try:
+        the_id = request.session['cart_id']
+        cart = Cart.objects.get(id=the_id)
+    except:
+        messages.error(request, 'Unexpected error occured!')
+        return redirect('Guest:cart')
+    cart_item = CartItem.objects.get(id=id)
+    # cart_item.cart = None
+    # cart_item.save()
+    variant = Inventory.objects.get(id=cart_item.variation.id)
+    variant.quantity += cart_item.quantity
+    variant.save()
+    cart.total -= cart_item.sub_total
+    cart.save()
+    cart_item.delete()
+    messages.success(request, 'Item Successfully removed from cart')
+    return redirect('Guest:cart')
+
+def update_cart(request, slug):
+
+    variation_types = []
+    try:
+        the_id = request.session['cart_id']
+        print("no heer", the_id)
+    except:
+        new_cart = Cart()
+        new_cart.save()
+        request.session['cart_id'] = new_cart.id
+        the_id = new_cart.id
+        print("here", the_id)
+    #
+    cart = Cart.objects.get(id=the_id)
+
+    try:
+        product = Product.objects.get(slug=slug)
+        print(product)
+    except Product.DoesNotExist:
+        pass
+    except:
+        pass
+    if request.method == "POST":
+        # print(request.POST)
+        qty = request.POST['qty']
+        color = request.POST['color']
+        size = request.POST['size']
+        try:
+            v = Inventory.objects.filter(product=product).filter(size=size).filter(color=color)
+            variation_types.append(v.values_list('color', flat=True)[0])
+            variation_types.append(v.values_list('size', flat=True)[0])
+        except:
+            pass
+    if request.method=="GET":
+        qty = request.GET.get('qty')
+
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, variation=v[0])
+
+
+    if int(qty):
+        cart_item.quantity = int(qty)
+        v = v[0]
+        v.quantity -= int(qty)
+        v.save()
+        cart_item.save()
+
+
+    return redirect('Guest:cart')
 
 def contact(request):
     return render(request, 'contact.html')
@@ -199,22 +299,49 @@ def search(request):
     if not pts:
         messages.info(request, "No product Found")
         print(messages)
-    return render(request, 'catalog.html', {'Products': pts})
+    return render(request,'catalog.html',{'Products':pts,'heading':False})
 
 
 def addReview(request, id1, user_id1):
     if request.method == 'POST':
         comment = str(request.POST['review'])
         rating = request.POST['rating']
-        user1 = User.objects.get(id=user_id1)
-        product1 = Product.objects.get(pk=id1)
+        user1 = User.objects.get(id = user_id1)
+        product1 = Product.objects.get(pk = id1)
 
-        review = Reviews(user=user1, product=product1, is_visible=True, comments=comment, rating=rating)
-        review.save();
-
+        review = Reviews(user=user1, product = product1, is_visible = False, comments=comment, rating=rating)
+        review.save()
         print('Review Added')
 
-        return redirect('Guest:product', product1.slug)
+               
+
+        if (request.user.is_authenticated):
+            cust = Customer.objects.filter(user = user1).exists()
+            if not cust:
+                print("Mar Ja")
+                messages.info(request, "Customer Does Not Exist")
+
+            else:
+                orders = Orders.objects.filter(product = product1).filter(customer = cust).exists()
+                
+
+                if (orders):
+                    print("Haye")
+                    review.is_visible = True
+                    review.save()
+                    messages.info(request, "Review Added")
+                else:
+                    print("Haye-2")
+                    messages.info(request, "You Have'nt Purchased this product. So, you can't leave a review on this Product.")
+
+        else:
+            pass
+            messages.info(request, "You Must Login First to Add a Review")
+            return redirect('login_system:login',str(product1.slug))
+    
+    next = request.META.get('HTTP_REFERER')
+    return redirect(next)
+
 
 
 def addEmail(request):
