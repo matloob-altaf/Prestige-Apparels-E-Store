@@ -59,7 +59,7 @@ def login(request, next = "/account/customer"):
             return redirect(next)
         else:
             messages.info(request,'invalid credentials')
-            return redirect('login')
+            return redirect('login_system:login')
     
     if request.method == 'GET':
         return render(request,'login.html')

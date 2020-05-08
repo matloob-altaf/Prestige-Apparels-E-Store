@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from Guest.views import index
 
 
 
@@ -9,6 +10,7 @@ urlpatterns = [
     path('login/', views.login, name = "login"),
     path('login/<str:next>', views.login, name = "login"),
     path('signup/', views.signup, name = "signup"),
+    path('customer/', index),
     
     #path('', views.index, name = "Index"),
     #path('product/addReview', views.addReview, name = "addReview"),
