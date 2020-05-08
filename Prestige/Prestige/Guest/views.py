@@ -140,18 +140,23 @@ def addReview(request, id1, user_id1):
                
 
         if (request.user.is_authenticated):
-            cust = Customer.objects.filter(user = user1)
-            orders = Orders.objects.filter(customer = cust).filter(product = product1)
-            
-
-            if (orders.exist()):
-                print("Haye")
-                review.is_visible = True
-                review.save()
-                messages.info(request, "Review Added")
+            cust = Customer.objects.filter(user = user1).exists()
+            if not cust:
+                print("Mar Ja")
+                messages.info(request, "Customer Does Not Exist")
+                
             else:
-                print("Haye-2")
-                messages.info(request, "You Have'nt Purchased this product. So, you can't leave a review on this Product.")
+                orders = Orders.objects.get(product = product1,customer = cust).exists()
+                
+
+                if (orders):
+                    print("Haye")
+                    review.is_visible = True
+                    review.save()
+                    messages.info(request, "Review Added")
+                else:
+                    print("Haye-2")
+                    messages.info(request, "You Have'nt Purchased this product. So, you can't leave a review on this Product.")
 
         else:
             pass
