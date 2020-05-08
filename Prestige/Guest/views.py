@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from Guest.models import Product, Cart, CartItem, Orders
 from django.contrib.auth.models import User, auth
-from Guest.models import Reviews, Newsletter, Inventory
+from Guest.models import Reviews, Newsletter, Inventory, Orders, Customer
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.contrib import messages
@@ -33,7 +33,7 @@ def singleProduct(request, slug1):
 
     number_reviews = len(reviews)
     return render(request, 'product.html',
-                  {'product': product1, 'reviews': reviews, 'len': number_reviews, 'colors': colors, 'sizes': sizes, 'qauntity': quantity})
+                  {'product': product1, 'reviews': reviews, 'len': number_reviews, 'inventory': inventorys})
 
 
 # return the all the products on the shop page template with given category
@@ -71,95 +71,50 @@ def view_cart(request):
         print("here")
     if the_id:
         cart = Cart.objects.get(id=the_id)
-        new_total = 0.00
-        for item in cart.cartitem_set.all():
-            per_item_total = item.product.price * item.quantity
-            item.sub_total = per_item_total
-            item.save()
-            new_total += per_item_total
-        request.session['item_total'] = cart.cartitem_set.all().count()
-        cart.total = new_total
-        # print(cart.cartitem_set.all().count())
-
-        cart.save()
-        if cart.cartitem_set.all().count() != 0:
-            context = {"cart": cart}
-        else:
-            context = {'empty': True}
-            messages.info(request, "Empty cart please keep shopping")
+        context = {"cart": cart}
     else:
         context = {'empty': True}
-        messages.info(request, "Empty cart please keep shopping")
+        messages.info(request, "Empty Cart!! Start Shopping to Fill it")
     template = "shoping-cart.html"
     # print(cart.items)
     return render(request, template, context)
 
-def remove_from_cart(request, id):
+
+def update_cart(request, p_slug):
     try:
         the_id = request.session['cart_id']
-        cart = Cart.objects.get(id=the_id)
-    except:
-        messages.error(request, 'Unexpected error occured!')
-        return redirect('Guest:cart')
-    cart_item = CartItem.objects.get(id=id)
-    # cart_item.cart = None
-    # cart_item.save()
-    variant = Inventory.objects.get(id=cart_item.variation.id)
-    variant.quantity += cart_item.quantity
-    variant.save()
-    cart.total -= cart_item.sub_total
-    cart.save()
-    cart_item.delete()
-    messages.success(request, 'Item Successfully removed from cart')
-    return redirect('Guest:cart')
-
-def update_cart(request, slug):
-
-    variation_types = []
-    try:
-        the_id = request.session['cart_id']
-        print("no heer", the_id)
+        print(the_id)
     except:
         new_cart = Cart()
         new_cart.save()
         request.session['cart_id'] = new_cart.id
         the_id = new_cart.id
-        print("here", the_id)
-    #
+        print(the_id)
+
     cart = Cart.objects.get(id=the_id)
 
     try:
-        product = Product.objects.get(slug=slug)
-        print(product)
+        product = Product.objects.get(slug=p_slug)
     except Product.DoesNotExist:
         pass
     except:
         pass
-    if request.method == "POST":
-        # print(request.POST)
-        qty = request.POST['qty']
-        color = request.POST['color']
-        size = request.POST['size']
-        try:
-            v = Inventory.objects.filter(product=product).filter(size=size).filter(color=color)
-            variation_types.append(v.values_list('color', flat=True)[0])
-            variation_types.append(v.values_list('size', flat=True)[0])
-        except:
-            pass
-    if request.method=="GET":
-        qty = request.GET.get('qty')
+    cart_item, created = CartItem.objects.get_or_create(product=product)
+    if created:
+        print("new cart item created")
 
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, variation=v[0])
-
-
-    if int(qty):
-        cart_item.quantity = int(qty)
-        v = v[0]
-        v.quantity -= int(qty)
-        v.save()
-        cart_item.save()
-
-
+    if not cart_item in cart.items.all():
+        cart.items.add(cart_item)
+    else:
+        cart.items.remove(cart_item)
+    new_total = 0.00
+    for item in cart.items.all():
+        per_item_total = item.product.price * item.quantity
+        new_total += per_item_total
+    request.session['item_total'] = cart.items.all().count()
+    cart.total = new_total
+    print(cart.items.all().count())
+    cart.save()
     return redirect('Guest:cart')
 
 def checkout(request):
