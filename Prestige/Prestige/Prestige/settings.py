@@ -39,7 +39,7 @@ DEBUG = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ['https://prestigestore.herokuapp.com/','127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -55,9 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Guest.apps.GuestConfig',
-    #'login_system.apps.login_sytemConfig',
     'phonenumber_field',
-    'django.contrib.sites'
 ]
 
 MIDDLEWARE = [

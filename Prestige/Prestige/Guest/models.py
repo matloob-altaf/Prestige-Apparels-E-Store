@@ -45,6 +45,7 @@ class Product(models.Model):
         return self.name
 
 
+
 class Inventory(models.Model):
     SIZE_CHOICES = [
         ('XS', 'XS'), ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL')
