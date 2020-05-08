@@ -2,8 +2,6 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
-
-
 app_name = 'Guest'
 urlpatterns = [
     path('', views.index, name = "Index"),
@@ -16,10 +14,12 @@ urlpatterns = [
     path('email/',views.addEmail, name='email'),
     path('visualize',views.qvisualize,name="visualize"), #page for product visualization
     
-    path('cart/', views.cart, name = "cart"),
+    path('cart/', views.view_cart, name = "cart"),
     path('technology/', views.technology, name = "technology"),
     path('about/', views.about, name = "about"),
     path('contact/', views.contact, name = "contact"),
-    path('search', views.search, name = "search")
+    path('search', views.search, name = "search"),
+    path('update_cart/<str:p_slug>', views.update_cart, name = "update_cart")
+
 
 ]

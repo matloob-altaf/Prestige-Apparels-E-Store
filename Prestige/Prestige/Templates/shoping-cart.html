@@ -30,9 +30,50 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 <!--===============================================================================================-->
+<style>
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .3s ease;
+  background-color: black;
+}
+
+.how-itemcart1:hover .overlay {
+  opacity: 0.5;
+}
+
+.icon {
+  color: white;
+  font-size: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.fa-user:hover {
+  color: #eee;
+}
+</style>
+
 </head>
 <body class="animsition">
-	
+
 	<!-- Header -->
 	<header class="header-v4">
 		<!-- Header desktop -->
@@ -56,8 +97,8 @@
 
 			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
-					
-					<!-- Logo desktop -->		
+
+					<!-- Logo desktop -->
 					<a href="#" class="logo">
 						<img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO">
 					</a>
@@ -93,7 +134,7 @@
 								<a href="{% url 'Guest:contact' %}">Contact Us</a>
 							</li>
 						</ul>
-					</div>	
+					</div>
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
@@ -110,12 +151,12 @@
 						</a>
 					</div>
 				</nav>
-			</div>	
+			</div>
 		</div>
 
 		<!-- Header Mobile -->
 		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->		
+			<!-- Logo moblie -->
 			<div class="logo-mobile">
 				<a href="{% url 'Guest:Index' %}"><img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
 			</div>
@@ -159,7 +200,7 @@
 						<a href="#" class="flex-c-m p-lr-10 trans-04">
 							My Account
 						</a>
-					
+
 					</div>
 				</li>
 			</ul>
@@ -223,7 +264,7 @@
 					<i class="zmdi zmdi-close"></i>
 				</div>
 			</div>
-			
+
 			<div class="header-cart-content flex-w js-pscroll">
 				<ul class="header-cart-wrapitem w-full">
 					<li class="header-cart-item flex-w flex-t m-b-12">
@@ -241,6 +282,7 @@
 							</span>
 						</div>
 					</li>
+
 
 					<li class="header-cart-item flex-w flex-t m-b-12">
 						<div class="header-cart-item-img">
@@ -274,7 +316,7 @@
 						</div>
 					</li>
 				</ul>
-				
+
 				<div class="w-full">
 					<div class="header-cart-total w-full p-tb-40">
 						Total: $75.00
@@ -308,9 +350,22 @@
 			</span>
 		</div>
 	</div>
-		
 
-	<!-- Shoping Cart -->
+    {% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+			{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+			<div class="alert alert-warning txt-center" role="alert">
+				{{ message }}
+			  </div>
+			{% endif %}
+
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+    {% if not empty %}
 	<form class="bg0 p-t-75 p-b-85">
 		<div class="container">
 			<div class="row">
@@ -324,65 +379,48 @@
 									<th class="column-3">Size & Color</th>
 									<th class="column-4">Price</th>
 									<th class="column-5">Quantity</th>
-									<th class="column-6">Total</th>
+									<th class="column-6 p-r-20">Total</th>
 								</tr>
-
+                                {% for item in cart.items.all %}
 								<tr class="table_row">
 									<td class="column-1">
 										<div class="how-itemcart1">
-											<img src="{% static 'images/item-cart-04.jpg' %}" alt="IMG">
+											<img src="{{ item.product.main_img.url }}" alt="IMG">
+
+                                            <div class="overlay">
+                                                <a href="{% url 'Guest:update_cart' item.product.slug %}" class="icon" title="User Profile">
+                                                    <i class="fa fa-times-circle"></i>
+                                                </a>
+                                            </div>
 										</div>
 									</td>
-									<td class="column-2">Fresh Strawberries</td>
-									<td class="column-3">S - Pink</td>
-									<td class="column-4">Rs 3600</td>
+                                    <td class="column-2">{{ item.product.name }} </td>
+									<td class="column-3">{{ item.product.slug }}</td>
+									<td class="column-4">{{ item.product.price }}</td>
 									<td class="column-5">
 										<div class="wrap-num-product flex-w m-l-auto m-r-0">
 											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
 												<i class="fs-16 zmdi zmdi-minus"></i>
 											</div>
 
-											<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" value="1">
+											<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" value={{ item.quantity }} max={{ item.product.quantity }}>
 
 											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 												<i class="fs-16 zmdi zmdi-plus"></i>
 											</div>
 										</div>
 									</td>
-									<td class="column-6">Rs 3600</td>
+									<td class="column-6 p-r-20">{{ item.product.price}} * {{item.quantity }}</td>
 								</tr>
+                                {% endfor %}
 
-								<tr class="table_row">
-									<td class="column-1">
-										<div class="how-itemcart1">
-											<img src="{% static 'images/item-cart-05.jpg' %}" alt="IMG">
-										</div>
-									</td>
-									<td class="column-2">Lightweight Jacket</td>
-									<td class="column-3">XS - Blue</td>
-									<td class="column-4">Rs 1600</td>
-									<td class="column-5">
-										<div class="wrap-num-product flex-w m-l-auto m-r-0">
-											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-minus"></i>
-											</div>
-
-											<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product2" value="1">
-
-											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-plus"></i>
-											</div>
-										</div>
-									</td>
-									<td class="column-6">Rs 1600</td>
-								</tr>
 							</table>
 						</div>
 
 						<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
 							<div class="flex-w flex-m m-r-20 m-tb-5">
 								<input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text" name="coupon" placeholder="Coupon Code">
-									
+
 								<div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
 									Apply coupon
 								</div>
@@ -410,7 +448,7 @@
 
 							<div class="size-209">
 								<span class="mtext-110 cl2">
-									Rs 5500
+									{{ cart.total }}
 								</span>
 							</div>
 						</div>
@@ -426,7 +464,7 @@
 								<p class="stext-111 cl6 p-t-2">
 									Cash on Delievery is the only shipping and payment method available. Please double check your address, or contact us if you need any help.
 								</p>
-								
+
 								<div class="p-t-15">
 									<span class="stext-112 cl8">
 										Calculate Shipping
@@ -447,13 +485,13 @@
 									<div class="bor8 bg0 m-b-22">
 										<input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Postcode / Zip">
 									</div>
-									
+
 									<div class="flex-w">
 										<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
 											Update Totals
 										</div>
 									</div>
-										
+
 								</div>
 							</div>
 						</div>
@@ -467,7 +505,7 @@
 
 							<div class="size-209 p-t-1">
 								<span class="mtext-110 cl2">
-									Rs 5500
+									{{ cart.total }}
 								</span>
 							</div>
 						</div>
@@ -480,6 +518,7 @@
 			</div>
 		</div>
 	</form>
+    {% endif %}
 		
 	
 		

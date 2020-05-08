@@ -299,13 +299,13 @@
 			</div>
 		</div>
 	</div>
-	
+
 	{% if messages %}
-	<ul class="messages">
+	<ul class="messages p-t-20 p-b-20">
 		{% for message in messages %}
 		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
 			{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
-			<div class="alert alert-warning txt-center" role="alert">
+			<div class="alert alert-warning txt-center " role="alert">
 				{{ message }}
 			  </div> 
 			{% endif %}
@@ -609,14 +609,6 @@
 								</span>
 							</div>
 
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2 ">
-									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}"
-										alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l"
-										src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-								</a>
-							</div>
 						</div>
 					</div>
 				</div>
