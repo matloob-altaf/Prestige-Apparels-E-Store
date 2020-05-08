@@ -121,17 +121,19 @@ class Orders(models.Model):
             self.customer.user.username) + " --------- " + str(self.product.all()) + " ---------  ORDER DATE: " + str(
             self.order_date) + " ---------  DELIVERY STATUS: " + str(self.status)
 
-
 class CartItem(models.Model):
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     sub_total = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
+    variation = models.ForeignKey(Inventory, on_delete=models.CASCADE, default=7)
+
+    # notes = models.TextField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.product.title
+        return "cart NO:" + str(self.cart.id) +" Product:"+ self.product.name
 
 
 class Cart(models.Model):

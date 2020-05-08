@@ -6,6 +6,7 @@ from Guest.models import Product, Customer, Reviews , Orders, Inventory, Newslet
 class CartAdmin(admin.ModelAdmin):
     class Meta:
         model = Cart
+
 admin.site.register(Product)
 admin.site.register(Reviews)
 admin.site.register(Orders)

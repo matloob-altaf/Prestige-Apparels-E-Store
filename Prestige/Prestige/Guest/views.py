@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from Guest.models import Product, Cart, CartItem
 from django.contrib.auth.models import User, auth
-from Guest.models import Reviews, Newsletter, Inventory, Orders, Customer
+from Guest.models import Reviews, Newsletter, Inventory
 from django.urls import reverse
 from django.contrib import messages
 from plotly.offline import plot
@@ -12,20 +12,27 @@ from plotly.graph_objects import Figure
 from Guest.utilities import creatPlotly
 
 
+
 def index(request):
     product = Product.objects.filter(featured=True)
     return render(request, 'index.html', {'products': product})
 
 
-# return the product on the template of single product with slug
 def singleProduct(request, slug1):
     product1 = Product.objects.get(slug=slug1)
-    reviews = Reviews.objects.filter(product=product1).exclude(is_visible = False)
+    reviews = Reviews.objects.filter(product=product1)
     inventorys = Inventory.objects.filter(product=product1).exclude(quantity=0)
+    colors = list(set(inventorys.values_list('color', flat=True)))
+    sizes = list(set(inventorys.values_list('size', flat=True)))
+    quantity = inventorys.values_list('quantity', flat=True)
+    if (not quantity):
+        quantity = 0
+    else:
+        quantity = quantity[0]
 
     number_reviews = len(reviews)
     return render(request, 'product.html',
-                  {'product': product1, 'reviews': reviews, 'len': number_reviews, 'inventory': inventorys})
+                  {'product': product1, 'reviews': reviews, 'len': number_reviews, 'colors': colors, 'sizes': sizes, 'qauntity': quantity})
 
 
 # return the all the products on the shop page template with given category
@@ -53,7 +60,6 @@ def about(request):
 def contact(request):
     return render(request, 'contact.html')
 
-
 def view_cart(request):
     try:
         the_id = request.session['cart_id']
@@ -62,50 +68,95 @@ def view_cart(request):
         print("here")
     if the_id:
         cart = Cart.objects.get(id=the_id)
-        context = {"cart": cart}
+        new_total = 0.00
+        for item in cart.cartitem_set.all():
+            per_item_total = item.product.price * item.quantity
+            item.sub_total = per_item_total
+            item.save()
+            new_total += per_item_total
+        request.session['item_total'] = cart.cartitem_set.all().count()
+        cart.total = new_total
+        # print(cart.cartitem_set.all().count())
+
+        cart.save()
+        if cart.cartitem_set.all().count() != 0:
+            context = {"cart": cart}
+        else:
+            context = {'empty': True}
+            messages.info(request, "Empty cart please keep shopping")
     else:
         context = {'empty': True}
-        messages.info(request, "Empty Cart!! Start Shopping to Fill it")
+        messages.info(request, "Empty cart please keep shopping")
     template = "shoping-cart.html"
     # print(cart.items)
     return render(request, template, context)
 
-
-def update_cart(request, p_slug):
+def remove_from_cart(request, id):
     try:
         the_id = request.session['cart_id']
-        print(the_id)
+        cart = Cart.objects.get(id=the_id)
+    except:
+        messages.error(request, 'Unexpected error occured!')
+        return redirect('Guest:cart')
+    cart_item = CartItem.objects.get(id=id)
+    # cart_item.cart = None
+    # cart_item.save()
+    variant = Inventory.objects.get(id=cart_item.variation.id)
+    variant.quantity += cart_item.quantity
+    variant.save()
+    cart.total -= cart_item.sub_total
+    cart.save()
+    cart_item.delete()
+    messages.success(request, 'Item Successfully removed from cart')
+    return redirect('Guest:cart')
+
+def update_cart(request, slug):
+
+    variation_types = []
+    try:
+        the_id = request.session['cart_id']
+        print("no heer", the_id)
     except:
         new_cart = Cart()
         new_cart.save()
         request.session['cart_id'] = new_cart.id
         the_id = new_cart.id
-        print(the_id)
-
+        print("here", the_id)
+    #
     cart = Cart.objects.get(id=the_id)
 
     try:
-        product = Product.objects.get(slug=p_slug)
+        product = Product.objects.get(slug=slug)
+        print(product)
     except Product.DoesNotExist:
         pass
     except:
         pass
-    cart_item, created = CartItem.objects.get_or_create(product=product)
-    if created:
-        print("new cart item created")
+    if request.method == "POST":
+        # print(request.POST)
+        qty = request.POST['qty']
+        color = request.POST['color']
+        size = request.POST['size']
+        try:
+            v = Inventory.objects.filter(product=product).filter(size=size).filter(color=color)
+            variation_types.append(v.values_list('color', flat=True)[0])
+            variation_types.append(v.values_list('size', flat=True)[0])
+        except:
+            pass
+    if request.method=="GET":
+        qty = request.GET.get('qty')
 
-    if not cart_item in cart.items.all():
-        cart.items.add(cart_item)
-    else:
-        cart.items.remove(cart_item)
-    new_total = 0.00
-    for item in cart.items.all():
-        per_item_total = item.product.price * item.quantity
-        new_total += per_item_total
-    request.session['item_total'] = cart.items.all().count()
-    cart.total = new_total
-    print(cart.items.all().count())
-    cart.save()
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, variation=v[0])
+
+
+    if int(qty):
+        cart_item.quantity = int(qty)
+        v = v[0]
+        v.quantity -= int(qty)
+        v.save()
+        cart_item.save()
+
+
     return redirect('Guest:cart')
 
 
