@@ -250,6 +250,7 @@
 		</div>
 	</header>
 
+
 	<!-- Cart -->
 	<div class="wrap-header-cart js-panel-cart">
 		<div class="s-full js-hide-cart"></div>
@@ -350,21 +351,31 @@
 			</span>
 		</div>
 	</div>
-
     {% if messages %}
-	<ul class="messages">
+	<ul class="messages p-t-10 p-b-10">
 		{% for message in messages %}
 		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-			{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+			{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+			<div class="alert alert-success txt-center " role="alert">
+				{{ message }}
+			  </div>
+			{% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+			<div class="alert alert-error txt-center " role="alert">
+				{{ message }}
+			  </div>
+			{% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
 			<div class="alert alert-warning txt-center" role="alert">
 				{{ message }}
 			  </div>
 			{% endif %}
-
-		</li>
+        </li>
 		{% endfor %}
 	</ul>
 	{% endif %}
+
+
     {% if not empty %}
 	<form class="bg0 p-t-75 p-b-85">
 		<div class="container">
@@ -388,14 +399,15 @@
 											<img src="{{ item.product.main_img.url }}" alt="IMG">
 
                                             <div class="overlay">
-                                                <a href="{% url 'Guest:update_cart' item.product.slug  %}?qty=0" class="icon" title="Remove item from cart">
+                                                <a href="{% url 'Guest:remove_from_cart' item.id  %}" class="icon" title="Remove item from cart">
                                                     <i class="fa fa-times-circle"></i>
                                                 </a>
                                             </div>
 										</div>
 									</td>
                                     <td class="column-2"><a href="{% url 'Guest:product' item.product.slug  %}">{{ item.product.name }}</a> </td>
-									<td class="column-3">{{ item.product.slug }}</td>
+                                    <td class="column-3"> {{ item.variation.color|capfirst }} & {{ item.variation.size }}
+                                    </td>
 									<td class="column-4">{{ item.product.price }}</td>
 									<td class="column-5 txt-center">
 
@@ -412,19 +424,7 @@
 							</table>
 						</div>
 
-						<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
-							<div class="flex-w flex-m m-r-20 m-tb-5">
-								<input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text" name="coupon" placeholder="Coupon Code">
 
-								<div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
-									Apply coupon
-								</div>
-							</div>
-
-							<div class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-								Update Cart
-							</div>
-						</div>
 					</div>
 				</div>
 
@@ -437,7 +437,7 @@
 						<div class="flex-w flex-t bor12 p-b-13">
 							<div class="size-208">
 								<span class="stext-110 cl2">
-									Subtotal:
+									Total:
 								</span>
 							</div>
 
@@ -448,62 +448,8 @@
 							</div>
 						</div>
 
-						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-							<div class="size-208 w-full-ssm">
-								<span class="stext-110 cl2">
-									Shipping:
-								</span>
-							</div>
-
-							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-								<p class="stext-111 cl6 p-t-2">
-									There are no shipping methods available. Please double check your address, or contact us if you need any help.
-								</p>
-
-								<div class="p-t-15">
-									<span class="stext-112 cl8">
-										Calculate Shipping
-									</span>
-
-									<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
-										<select class="js-select2" name="time">
-											<option>Select a country...</option>
-											<option>USA</option>
-											<option>UK</option>
-										</select>
-										<div class="dropDownSelect2"></div>
-									</div>
-
-									<div class="bor8 bg0 m-b-12">
-										<input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="state" placeholder="State /  country">
-									</div>
-
-									<div class="bor8 bg0 m-b-22">
-										<input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Postcode / Zip">
-									</div>
-
-									<div class="flex-w">
-										<div class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">
-											Update Totals
-										</div>
-									</div>
-
-								</div>
-							</div>
-						</div>
-
 						<div class="flex-w flex-t p-t-27 p-b-33">
-							<div class="size-208">
-								<span class="mtext-101 cl2">
-									Total:
-								</span>
-							</div>
 
-							<div class="size-209 p-t-1">
-								<span class="mtext-110 cl2">
-									{{ cart.total }}
-								</span>
-							</div>
 						</div>
 
 						<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">

@@ -299,6 +299,31 @@
 			</div>
 		</div>
 	</div>
+{% if messages %}
+	<ul class="messages p-t-10 p-b-10">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+			{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+			<div class="alert alert-success txt-center " role="alert">
+				{{ message }}
+			  </div>
+			{% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+			<div class="alert alert-error txt-center " role="alert">
+				{{ message }}
+			  </div>
+			{% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+			<div class="alert alert-warning txt-center" role="alert">
+				{{ message }}
+			  </div>
+			{% endif %}
+
+
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
 
 
 	<!-- breadcrumb -->
@@ -309,17 +334,12 @@
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
 
-			<a href="{% url 'Guest:catalog' %}men" class="stext-109 cl8 hov-cl1 trans-04">
-				Men
-				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
-			</a>
 
 			<span class="stext-109 cl4">
 				{{product.name}}
 			</span>
 		</div>
 	</div>
-		
 
 	<!-- Product Detail -->
 	<section class="sec-product-detail bg0 p-t-65 p-b-60">
@@ -396,7 +416,9 @@
 						<p class="stext-102 cl3 p-t-23">
 							{{product.descripion}}
 						</p>
-						
+						<form action="{% url 'Guest:update_cart' product.slug  %}" method="POST">
+                        {% csrf_token %}
+
 						<!--  -->
 						<div class="p-t-33">
 							<div class="flex-w flex-r-m p-b-10">
@@ -406,10 +428,9 @@
 
 								<div class="size-204 respon6-next">
 									<div class="rs1-select2 bor8 bg0">
-										<select class="js-select2" name="time">
-											<option disabled selected>Choose an option</option>
+										<select class="js-select2" name="size" required>
 											{% for i in sizes %}
-											<option>Size {{i}}</option>
+											<option value="{{ i }}">Size {{i}}</option>
 											{% endfor %}
 										</select>
 										<div class="dropDownSelect2"></div>
@@ -424,17 +445,15 @@
 
 								<div class="size-204 respon6-next">
 									<div class="rs1-select2 bor8 bg0">
-										<select class="js-select2" name="time">
-											<option disabled selected>Choose an option</option>
+										<select class="js-select2" name="color" required>
 											{% for i in colors %}
-											<option>{{i}}</option>
+											<option value={{ i }} >{{i}}</option>
 											{% endfor %}
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
 								</div>
 							</div>
-                            <form action="{% url 'Guest:update_cart' product.slug  %}?qty=1" method="get">
 
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-204 flex-w flex-m respon6-next">
@@ -443,14 +462,14 @@
 											<i class="fs-16 zmdi zmdi-minus"></i>
 										</div>
 
-										<input class="mtext-104 cl3 txt-center num-product" type="number" name="qty" value="1" max={{ qauntity }}>
+										<input class="mtext-104 cl3 txt-center num-product" type="number" name="qty" value="1" min="1" max="100">
 
 										<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 											<i class="fs-16 zmdi zmdi-plus"></i>
 										</div>
 									</div>
 
-									<button type="submit"  class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+									<button type="submit"  class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 ">
 										Add to cart
 									</button>
                                     </form>
@@ -1086,7 +1105,7 @@
 
 									<div class="size-204 respon6-next">
 										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="time">
+											<select class="js-select2" name="size">
 												<option>Choose an option</option>
 												{% for i in inventory %}
 												<option>Size {{i.size}}</option>
@@ -1104,7 +1123,7 @@
 
 									<div class="size-204 respon6-next">
 										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="time">
+											<select class="js-select2" name="color">
 												<option>Choose an option</option>
 												{% for i in inventory %}
 												<option>{{i.color}}</option>

@@ -45,17 +45,20 @@ class Product(models.Model):
         return self.name
 
 
+
 class Inventory(models.Model):
     SIZE_CHOICES = [
         ('XS', 'XS'), ('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL')
     ]
     size = models.CharField(choices=SIZE_CHOICES, max_length=3)
     color = models.CharField(max_length=10)
-    quantity = models.SmallIntegerField()
+    quantity = models.SmallIntegerField(default=100)
     product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    active = models.BooleanField(default= 1)
+
 
     def __str__(self):
-        return "PRODUCT: " + self.product.name + " " + "          SIZE: " + self.size + " " + self.color + " " + str(
+        return str(self.id)+" PRODUCT: " + self.product.name + " " + "          SIZE: " + self.size + " " + self.color + " " + str(
             self.quantity)
 
 
@@ -127,6 +130,9 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     sub_total = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
+    variation = models.ForeignKey(Inventory, on_delete=models.CASCADE, default=7)
+
+    # notes = models.TextField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 
