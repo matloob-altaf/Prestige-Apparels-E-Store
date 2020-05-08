@@ -65,7 +65,7 @@ def view_cart(request):
         context = {"cart": cart}
     else:
         context = {'empty': True}
-        messages.info(request, "Empty cart please keep shopping")
+        messages.info(request, "Empty Cart!! Start Shopping to Fill it")
     template = "shoping-cart.html"
     # print(cart.items)
     return render(request, template, context)
@@ -144,9 +144,9 @@ def addReview(request, id1, user_id1):
             if not cust:
                 print("Mar Ja")
                 messages.info(request, "Customer Does Not Exist")
-                
+
             else:
-                orders = Orders.objects.get(product = product1,customer = cust).exists()
+                orders = Orders.objects.filter(product = product1).filter(customer = cust).exists()
                 
 
                 if (orders):
@@ -163,7 +163,8 @@ def addReview(request, id1, user_id1):
             messages.info(request, "You Must Login First to Add a Review")
             return redirect('login_system:login',str(product1.slug))
     
-    return redirect('Guest:product',product1.slug)
+    next = request.META.get('HTTP_REFERER')
+    return redirect(next)
 
 
 
