@@ -3,6 +3,9 @@ from Guest.models import Product, Customer, Reviews , Orders, Inventory, Newslet
 
 
 # Register your models here.
+class CartAdmin(admin.ModelAdmin):
+    class Meta:
+        model = Cart
 
 admin.site.register(Product)
 admin.site.register(Reviews)
@@ -11,4 +14,4 @@ admin.site.register(Inventory)
 admin.site.register(Newsletter)
 admin.site.register(Customer)
 admin.site.register(CartItem)
-admin.site.register(Cart)
+admin.site.register(Cart, CartAdmin)

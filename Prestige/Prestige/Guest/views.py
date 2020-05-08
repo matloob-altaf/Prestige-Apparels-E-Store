@@ -2,10 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from Guest.models import Product, Cart, CartItem
 from django.contrib.auth.models import User, auth
-from Guest.models import Reviews, Newsletter, Inventory, Orders
+from Guest.models import Reviews, Newsletter, Inventory
 from django.urls import reverse
 from django.contrib import messages
-from django.utils.crypto import get_random_string
 from plotly.offline import plot
 from plotly.graph_objs import Bar
 from plotly.graph_objects import Layout
@@ -162,28 +161,6 @@ def update_cart(request, slug):
 
     return redirect('Guest:cart')
 
-
-def checkout(request):
-    context = {}
-    try:
-        the_id = request.session['cart_id']
-        cart = Cart.objects.get(id = the_id)
-    except:
-        the_id = None
-        return redirect("Guest:cart")
-
-    new_order, created = Orders.objects.get_or_create(cart=cart)
-    if created:
-        new_order.order_id = "PRESTIGE" + get_random_string(5)
-        new_order.save()
-    if new_order.status == 'RECEIVED':
-        print("deleting cart")
-        del request.session['cart_id']
-        del request.session['item_total']
-        # cart.delete()
-        # cart.save()
-    template = "checkout.html"
-    return render(request,template,context)
 
 def search(request):
     text = request.GET['search']

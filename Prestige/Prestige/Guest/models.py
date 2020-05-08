@@ -113,20 +113,16 @@ class Orders(models.Model):
         ('SHIPPED', 'Shipped'),
         ('RECEIVED', 'Received')
     ]
-    order_id = models.CharField(max_length=120, default='PRESTIGE666', unique=True)
-    cart = models.ForeignKey('Cart', on_delete = models.CASCADE)
-
-    # customer = models.ForeignKey("Guest.Customer", on_delete=models.CASCADE)
-    # product = models.ManyToManyField("Guest.Product")
+    customer = models.ForeignKey("Guest.Customer", on_delete=models.CASCADE)
+    product = models.ManyToManyField("Guest.Product")
     status = models.CharField(choices=STATUS_CHOICES, max_length=15, default='IN PROCESS')
-    order_date = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    order_date = models.DateField(auto_now=False, auto_now_add=True)
+    order_time = models.TimeField(auto_now=False, auto_now_add=True)
 
     def __str__(self):
-        return self.order_id
-        # return "ORDER ID: " + str(self.pk) + " -------  CUSTOMER: " + str(
-        #     self.customer.user.username) + " --------- " + str(self.product.all()) + " ---------  ORDER DATE: " + str(
-        #     self.order_date) + " ---------  DELIVERY STATUS: " + str(self.status)
+        return "ORDER ID: " + str(self.pk) + " -------  CUSTOMER: " + str(
+            self.customer.user.username) + " --------- " + str(self.product.all()) + " ---------  ORDER DATE: " + str(
+            self.order_date) + " ---------  DELIVERY STATUS: " + str(self.status)
 
 
 class CartItem(models.Model):

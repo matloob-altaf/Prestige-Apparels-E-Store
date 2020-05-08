@@ -14,12 +14,11 @@ urlpatterns = [
     path('email/', views.addEmail, name='email'),
     path('visualize', views.qvisualize, name="visualize"),  # page for product visualization
 
+    # for search apperance
 
     path('cart/', views.view_cart, name="cart"),
     path('update_cart/<str:slug>', views.update_cart, name="update_cart"),
     path('remove_cart/<int:id>', views.remove_from_cart, name="remove_from_cart"),
-    path('checkout/', views.checkout, name="checkout"),
-
     path('technology/', views.technology, name="technology"),
     path('about/', views.about, name="about"),
     path('contact/', views.contact, name="contact"),
