@@ -24,6 +24,22 @@ class InventoryTestCase(TestCase):
             tags = "lol tag",
             category = "my category"
         )
+        prod2 = Product.objects.create(
+            name = "MyProduct1",
+            description = "My beautiful product",
+            sale = True ,
+            price = 2500,
+            discount_price = 1000,
+            slug = "MySlug",
+            is_published = True,
+            featured = True,
+            main_img = "my image",
+            sec_img = "sec img",
+            third_img = "third img",
+            fourth_img = "fourth img",
+            tags = "lol tag",
+            category = "my category"
+        )
         Inventory.objects.create(
             size="XS",
             color="Blue",
@@ -55,6 +71,15 @@ class InventoryTestCase(TestCase):
                 continue
             else:
                 self.assertNotEqual(obj1.give_quantity(),i)
+                
+    def test_give_product(self):
+        obj1 = Product.objects.get(name="MyProduct")
+        obj2= Inventory.objects.get(product= obj1)
+        self.assertEqual(obj2.give_product(), obj1)
+        obj3= Product.objects.get(name="MyProduct1")
+        self.assertNotEqual(obj2.give_product(), obj3)
+        
+        
 class ProductTestCase(TestCase):
     '''class to test product model'''
     def setUp(self):
