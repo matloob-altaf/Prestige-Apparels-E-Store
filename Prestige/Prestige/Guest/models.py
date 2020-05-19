@@ -141,6 +141,20 @@ class CartItem(models.Model):
 
     def __str__(self):
         return "cart NO:" + str(self.cart.id) +" Product:"+ self.product.name
+    def give_cart(self):
+        self.cart
+    def give_product(self):
+        return self.product
+    def give_quantity(self):
+        return self.quantity
+    def give_sub_total(self):
+        return self.sub_total
+    def give_variation(self):
+        return self.variation
+    def give_timestamp(self):
+        return self.timestamp
+    def give_last_updated(self):
+        return self.last_updated
 
 
 class Cart(models.Model):
@@ -153,3 +167,12 @@ class Cart(models.Model):
 
     def __str__(self):
         return str(self.pk)
+    
+    def give_total(self):
+        return self.total
+    def give_timestamp(self):
+        return self.timestamp
+    def give_last_updated(self):
+        return self.last_updated
+    def give_active(self):
+        return self.active
