@@ -53,6 +53,7 @@ def login(request, next = "/account/customer"):
         
         password = request.POST['password1']      
         user = auth.authenticate(username=username,password = password)  
+        print()
 
         if user is not None:
             auth.login(request,user)
