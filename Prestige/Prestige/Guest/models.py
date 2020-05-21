@@ -95,6 +95,15 @@ class Inventory(models.Model):
         return str(self.id)+" PRODUCT: " + self.product.name + " " + "          SIZE: " + self.size + " " + self.color + " " + str(
             self.quantity)
 
+    def give_size(self):
+        return self.size
+    def give_color(self):
+        return self.color
+    def give_quantity(self):
+        return self.quantity
+    def give_product(self):
+        return self.product
+
 
 class Newsletter(models.Model):
     email = models.EmailField(max_length=254)
