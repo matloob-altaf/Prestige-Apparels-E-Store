@@ -43,6 +43,40 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    def give_category_list(self):
+        lst = ",".split(self.category)
+        return " ".join(lst)
+    def give_name(self):
+        return self.name
+    def give_description(self):
+        return self.description
+    def give_sale(self):
+        return self.sale
+    def give_price(self):
+        return self.price
+    def give_discount_price(self):
+        return self.discount_price
+    def give_slug(self):
+        return self.slug
+    def give_published(self):
+        return self.is_published
+    def give_featured(self):
+        return self.featured
+    def give_mainimg(self):
+        return self.main_img
+    def give_secimg(self):
+        return self.sec_img
+    def give_thirdimg(self):
+        return self.third_img
+    def give_fourthimg(self):
+        return self.fourth_img
+    def give_secimg(self):
+        return self.sec_img
+    def give_tags(self):
+        return self.tags
+    def give_category(self):
+        return self.category
+
 
 
 
