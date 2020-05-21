@@ -6,14 +6,27 @@ from .views import login,logout,signup
 # Create your tests here.
 
 class TestUrls(TestCase):
+    
     def test_login_url_resolves(self):
         print("Testing resolution of Login URL")
-        url = reverse('login_system:login')
+        # getting corresponding url by name of url 
+        # login_system is the namespace 
+        # login is name of the url 
+        url = reverse('login_system:login')  
+        # resolving the URL path to corresponding view function
+        # asserting that the resolved url view and view defined in  
+        # url.py for login are equal
         self.assertEquals(resolve(url).func,login)
        
     def test_signup_url_resolves(self):
         print("\nTesting resolution of Signup URL")
+        # getting corresponding url by name of url 
+        # login_system is the namespace 
+        # login is name of the url 
         url = reverse('login_system:signup')
+        # resolving the URL path to corresponding view function
+        # asserting that the resolved url view and view defined in  
+        # url.py for login are equal
         self.assertEquals(resolve(url).func,signup)
 
 
