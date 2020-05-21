@@ -128,6 +128,19 @@ class Reviews(models.Model):
 
     def __str__(self):
         return self.user.first_name + "'s Review on " + self.product.name
+
+    def give_user(self):
+        return self.user
+    def give_product(self):
+        return self.product
+    def give_comments(self):
+        return self.comments
+    def give_is_visible(self):
+        return self.is_visible
+    def give_rating(self):
+        return self.rating
+    def give_is_reviewed(self):
+        return self.is_reviewed
         # <i class="zmdi zmdi-star-half"></i>
 
     # will learn what is this

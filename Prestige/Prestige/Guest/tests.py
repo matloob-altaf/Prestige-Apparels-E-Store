@@ -114,9 +114,9 @@ class CartItemTestCase(TestCase):
 
 ###############################################################################################################333
 
-from django.test import TestCase
+#from django.test import TestCase
 from .models import Product,Inventory,Reviews
-from django.urls import reverse,resolve
+#from django.urls import reverse,resolve
 
 # Create your tests here.
 
@@ -290,16 +290,16 @@ class TestUrl(TestCase):
     '''class to test url resolution by testing app name and views names'''
     def test_resolution_for_apps(self):
         '''function to test for resolution of apps'''
-        listPaths = ['/','/product/','/catalog/','/addReview','/visualize','/cart/','/technology/','/about/','/contact/',
+        listPaths = ['/','/product/','/catalog/','/visualize','/cart/','/technology/','/about/','/contact/',
         '/product/<str:slug1','/catalog/<str:category1>']
         for path in listPaths:
             resolver = resolve(path)
             self.assertEqual(resolver.app_name,'Guest')
     def test_resolution_for_viewsNames(self):
         '''function to test for resolution of view/functions'''
-        listPaths = ['/','/product/','/catalog/','/addReview','/visualize','/cart/','/technology/','/about/','/contact/',
+        listPaths = ['/','/product/','/catalog/','/visualize','/cart/','/technology/','/about/','/contact/',
         '/product/<str:slug1','/catalog/<str:category1>']
-        listPaths1 = ['Index','product','catalog','addreview','visualize','shopping','technology','about','contact','product','catalog']
+        listPaths1 = ['Index','product','catalog','visualize','cart','technology','about','contact','product','catalog']
         for viewname,url in zip(listPaths1,listPaths):
             resolver = resolve(url)
             self.assertEqual(resolver.view_name,resolver.app_name+":"+viewname)
